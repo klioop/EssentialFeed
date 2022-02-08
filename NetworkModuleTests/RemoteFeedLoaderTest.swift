@@ -7,28 +7,9 @@
 
 import Foundation
 import XCTest
+import NetworkModule
 
 // url is the detail of the implementation of RemoteFeedLoader. It should not be in the public interface
-class RemoteFeedLoader {
-    
-    let url: URL
-    let client: HTTPClient
-    
-    init(url: URL, client: HTTPClient) {
-        self.url = url
-        self.client = client
-    }
-    
-    func load() {
-        client.get(from: url)
-    }
-    
-}
-
-// URLSession, AF etc
-protocol HTTPClient {
-    func get(from url: URL)
-}
 
 
 class RemoteFeedLoaderTest: XCTestCase {
