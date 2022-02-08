@@ -9,6 +9,7 @@ import Foundation
 
 // URLSession, AF etc
 public protocol HTTPClient {
+    // error type should not be RemoteFeedLoader.Error. It comes from the domain in HTTP
     func get(from url: URL, completion: @escaping ((Error) -> Void))
 }
 
