@@ -7,10 +7,15 @@
 
 import Foundation
 
+public enum HTTPClientResult {
+    case success(HTTPURLResponse)
+    case failure(Error)
+}
+
 // extension URLSession, or AF is possible
 public protocol HTTPClient {
     // error type should not be RemoteFeedLoader.Error. It comes from the domain in HTTP
-    func get(from url: URL, completion: @escaping ((Error?, HTTPURLResponse?) -> Void))
+    func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void)
 }
 
 
@@ -30,12 +35,13 @@ public final class RemoteFeedLoader {
     }
     // RemoteFeedLoader is mapping a client error to the domain error, in which case is the connectivity
     public func load(completion: @escaping (Error) -> Void ) {
-        client.get(from: url) { (error, response) in
-            if response != nil {
+        client.get(from: url) { (result) in
+            switch result {
+            case .success:
                 completion(.invalidData)
-            } else {
+            case .failure:
                 completion(.conectivity)
-            }            
+            }
         }
     }
     
