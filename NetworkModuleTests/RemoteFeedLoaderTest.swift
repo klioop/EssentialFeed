@@ -8,16 +8,19 @@
 import Foundation
 import XCTest
 
+// url is the detail of the implementation of RemoteFeedLoader. It should not be in the public interface
 class RemoteFeedLoader {
     
+    let url: URL
     let client: HTTPClient
     
-    init(client: HTTPClient) {
+    init(url: URL, client: HTTPClient) {
+        self.url = url
         self.client = client
     }
     
     func load() {
-        client.get(from: URL(string: "a-given-url.com")!)
+        client.get(from: url)
     }
     
 }
@@ -38,19 +41,21 @@ class HTTPClientSpy: HTTPClient {
 
 class RemoteFeedLoaderTest: XCTestCase {
     
-    func test_doesnotUrlRequest() {
+    func test_init_doesNotRequestDataFromURL() {
+        let url = URL(string: "https://a-given-url.com")!
         let client = HTTPClientSpy()
-        _ = RemoteFeedLoader(client: client)
+        _ = RemoteFeedLoader(url: url, client: client)
         
         XCTAssertNil(client.requestedUrl)
     }
 
-    func test_sut_load() {
+    func test_sut_load_requestDataFromURL() {
+        let url = URL(string: "https://a-given-url.com")!
         let client = HTTPClientSpy()
-        let sut = RemoteFeedLoader(client: client)
+        let sut = RemoteFeedLoader(url: url, client: client)
         
         sut.load()
         
-        XCTAssertNotNil(client.requestedUrl)
+        XCTAssertEqual(client.requestedUrl, url)
     }
 }
