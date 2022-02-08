@@ -20,16 +20,12 @@ class HTTPClient {
     
     static var shared: HTTPClient = HTTPClient()
     
-    private init() {}
-    
-    var requestedUrl: URL?
-    
-    func get(from url: URL) {
-        requestedUrl = url
-    }
+    func get(from url: URL) {}
 }
 
 class HTTPClientSpy: HTTPClient {
+    
+    var requestedUrl: URL?
     
     override func get(from url: URL) {
         requestedUrl = url
@@ -40,14 +36,16 @@ class HTTPClientSpy: HTTPClient {
 class RemoteFeedLoaderTest: XCTestCase {
     
     func test_doesnotUrlRequest() {
-        let client = HTTPClient.shared
+        let client = HTTPClientSpy()
+        HTTPClient.shared = client
         _ = RemoteFeedLoader()
         
         XCTAssertNil(client.requestedUrl)
     }
 
     func test_sut_load() {
-        let client = HTTPClient.shared
+        let client = HTTPClientSpy()
+        HTTPClient.shared = client
         let sut = RemoteFeedLoader()
         
         sut.load()
