@@ -47,7 +47,7 @@ class RemoteFeedLoaderTest: XCTestCase {
         
         let clientError = NSError(domain: "Test", code: 0)
         // completion happens after the load was invoked - important!
-        client.completions[0](clientError) // 2 load 의 completion 을 실행
+        client.complete(with: clientError) // 2 load 의 completion 을 실행
         
         XCTAssertEqual(capturedErrors, [.conectivity])
     }
@@ -62,6 +62,10 @@ class RemoteFeedLoaderTest: XCTestCase {
             completions.append(completion)
             requestedURLs.append(url)
          }
+        
+        func complete(with error: Error, at index: Int = 0) {
+            completions[index](error)
+        }
     }
     
     private func makeSUT(url: URL = URL(string: "https://a-given-url.com")!) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
