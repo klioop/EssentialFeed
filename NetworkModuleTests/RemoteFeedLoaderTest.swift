@@ -55,7 +55,8 @@ class RemoteFeedLoaderTest: XCTestCase {
         let samples = [199, 201, 300, 400, 500]
         samples.enumerated().forEach { (index, code) in
             expect(sut, toCompleteWith: .failure(.invalidData), when: {
-                client.complete(withStatusCode: 400, at: index)
+                let json = makeItemJSON([])
+                client.complete(withStatusCode: 400, data: json, at: index)
             })
         }
     }
@@ -109,7 +110,12 @@ class RemoteFeedLoaderTest: XCTestCase {
         return (sut, client)
     }
     
-    private func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
+    private func makeItem(
+        id: UUID,
+        description: String? = nil,
+        location: String? = nil,
+        imageURL: URL
+    ) -> (model: FeedItem, json: [String: Any]) {
         let item = FeedItem(id: id, description: description, location: location, imageURL: imageURL)
         let json: [String: Any] = [
             "id": id.uuidString,
@@ -128,7 +134,13 @@ class RemoteFeedLoaderTest: XCTestCase {
         return try! JSONSerialization.data(withJSONObject: json)
     }
     
-    private func expect(_ sut: RemoteFeedLoader, toCompleteWith result: RemoteFeedLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+    private func expect(
+        _ sut: RemoteFeedLoader,
+        toCompleteWith result: RemoteFeedLoader.Result,
+        when action: () -> Void,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
         var capturedResults = [RemoteFeedLoader.Result]()
         sut.load { capturedResults.append($0) } // 1
         
@@ -152,7 +164,7 @@ class RemoteFeedLoaderTest: XCTestCase {
             messages[index].completion(.failure(error))
         }
         
-        func complete(withStatusCode code: Int, data: Data = Data(), at index: Int = 0) {
+        func complete(withStatusCode code: Int, data: Data, at index: Int = 0) {
             let response = HTTPURLResponse(
                 url: requestedURLs[index],
                 statusCode: code,
