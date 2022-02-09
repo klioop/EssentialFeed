@@ -38,13 +38,14 @@ public final class RemoteFeedLoader {
         self.url = url
         self.client = client
     }
+    
     // RemoteFeedLoader is mapping a client error to the domain error, in which case is the connectivity
     public func load(completion: @escaping (Result) -> Void ) {
         client.get(from: url) { (result) in
             switch result {
             case let .success(data, response):
-                if response.statusCode == 200, let json = try? JSONDecoder().decode(Root.self, from: data) {
-                    completion(.success(json.items))
+                if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
+                    completion(.success(root.items.map { $0.feedItem }))
                 } else {
                     completion(.failure(.invalidData))
                 }
@@ -53,9 +54,20 @@ public final class RemoteFeedLoader {
             }
         }
     }
-    
 }
 
-struct Root: Decodable {
-    let items: [FeedItem]
+private struct Root: Decodable {
+    let items: [Item]
 }
+
+private struct Item: Decodable {
+    let id: UUID
+    let description: String?
+    let location: String?
+    let image: URL
+    
+    var feedItem: FeedItem {
+        return FeedItem(id: id, description: description, location: location, imageURL: image)
+    }
+}
+
