@@ -29,23 +29,14 @@ public final class RemoteFeedLoader {
     }
     
     // RemoteFeedLoader is mapping a client error to the domain error, in which case is the connectivity
-    public func load(completion: @escaping (Result) -> Void ) {
+    public func load(completion: @escaping (Result) -> Void) {
         client.get(from: url) { (result) in
             switch result {
             case let .success(data, response):
-                completion(self.map(data, from: response))
+                completion(FeedItemMapper.map(data, from: response))
             case .failure:
                 completion(.failure(.conectivity))
             }
-        }
-    }
-    
-    private func map(_ data: Data, from response: HTTPURLResponse) -> RemoteFeedLoader.Result {
-        do {
-            let items = try FeedItemMapper.map(data, response)
-            return .success(items)
-        } catch {
-            return .failure(.invalidData)
         }
     }
 }

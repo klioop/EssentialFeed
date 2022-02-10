@@ -113,7 +113,6 @@ class RemoteFeedLoaderTest: XCTestCase {
         trackMemoryLeak(sut, file: file, line: line)
         trackMemoryLeak(client, file: file, line: line)
         
-        
         return (sut, client)
     }
     
