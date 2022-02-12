@@ -32,7 +32,7 @@ class URLSeestionHTTPClientTest: XCTestCase {
         URLProtocolStub.startInterceptingRequest()
         let url = URL(string: "https://any-given-url.com")!
         let requestedError = NSError(domain: "any error", code: 1)
-        URLProtocolStub.stub(url: url, data: nil, response: nil, error: requestedError)
+        URLProtocolStub.stub(data: nil, response: nil, error: requestedError)
         
         let sut = URLSessionHTTPClient()
         
@@ -58,7 +58,7 @@ class URLSeestionHTTPClientTest: XCTestCase {
     
     private class URLProtocolStub: URLProtocol {
         
-        private static var stubs = [URL: Stub]()
+        private static var stub: Stub?
         
         private struct Stub {
             let data: Data?
@@ -72,18 +72,16 @@ class URLSeestionHTTPClientTest: XCTestCase {
         
         static func stopInterceptingRequest() {
             URLProtocol.unregisterClass(URLProtocolStub.self)
-            stubs = [:]
+            stub = nil
         }
         
-        static func stub(url: URL, data: Data?, response: HTTPURLResponse?, error: Error?) {
-            stubs[url] = Stub(data: data, response: response, error: error)
+        static func stub(data: Data?, response: HTTPURLResponse?, error: Error?) {
+            stub = Stub(data: data, response: response, error: error)
         }
         
         // The URL loading system will instantiate our URLProtocolStub only if we can handle the request. So up to this point, we don't have an instance yet.
         override class func canInit(with request: URLRequest) -> Bool {
-            guard let url = request.url else { return false }
-            
-            return URLProtocolStub.stubs[url] != nil
+            return true
         }
         
         override class func canonicalRequest(for request: URLRequest) -> URLRequest {
@@ -91,18 +89,17 @@ class URLSeestionHTTPClientTest: XCTestCase {
         }
         
         override func startLoading() {
-            guard let url = request.url, let stub = URLProtocolStub.stubs[url] else { return }
             
-            if let data = stub.data {
+            if let data = URLProtocolStub.stub?.data {
                 client?.urlProtocol(self, didLoad: data)
             }
             
-            if let response = stub.response {
+            if let response = URLProtocolStub.stub?.response {
                 client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
             }
             
             // If we have an error, we need to tell the URL loading system that an error occured by using an instance property of URLProtocol, client. The protocol uses it to communicate with the URL loading system.
-            if let error = stub.error {
+            if let error = URLProtocolStub.stub?.error {
                 // Tell the URL loading system that loading failed with an error using client
                 client?.urlProtocol(self, didFailWithError: error)
             }
