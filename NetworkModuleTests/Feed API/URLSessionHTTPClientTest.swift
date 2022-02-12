@@ -32,7 +32,7 @@ class URLSeestionHTTPClientTest: XCTestCase {
         URLProtocolStub.startInterceptingRequest()
         let url = URL(string: "https://any-given-url.com")!
         let requestedError = NSError(domain: "any error", code: 1)
-        URLProtocolStub.stub(url: url, error: requestedError)
+        URLProtocolStub.stub(url: url, data: nil, response: nil, error: requestedError)
         
         let sut = URLSessionHTTPClient()
         
@@ -61,6 +61,8 @@ class URLSeestionHTTPClientTest: XCTestCase {
         private static var stubs = [URL: Stub]()
         
         private struct Stub {
+            let data: Data?
+            let response: HTTPURLResponse?
             let error: Error?
         }
         
@@ -73,8 +75,8 @@ class URLSeestionHTTPClientTest: XCTestCase {
             stubs = [:]
         }
         
-        static func stub(url: URL, error: Error? = nil) {
-            stubs[url] = Stub(error: error)
+        static func stub(url: URL, data: Data?, response: HTTPURLResponse?, error: Error?) {
+            stubs[url] = Stub(data: data, response: response, error: error)
         }
         
         // The URL loading system will instantiate our URLProtocolStub only if we can handle the request. So up to this point, we don't have an instance yet.
@@ -90,6 +92,14 @@ class URLSeestionHTTPClientTest: XCTestCase {
         
         override func startLoading() {
             guard let url = request.url, let stub = URLProtocolStub.stubs[url] else { return }
+            
+            if let data = stub.data {
+                client?.urlProtocol(self, didLoad: data)
+            }
+            
+            if let response = stub.response {
+                client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+            }
             
             // If we have an error, we need to tell the URL loading system that an error occured by using an instance property of URLProtocol, client. The protocol uses it to communicate with the URL loading system.
             if let error = stub.error {
