@@ -26,7 +26,26 @@ class URLSessionHTTPClient {
     }
 }
 
-class URLSeestionHTTPClientTest: XCTestCase {
+class URLSesstionHTTPClientTest: XCTestCase {
+    
+    func test_getFromURL_performsGETRequestWithURL() {
+        URLProtocolStub.startInterceptingRequest()
+        
+        let url = URL(string: "https://any-given-url.com")!
+        let exp = expectation(description: "Wait for observe request")
+        
+        URLProtocolStub.observeRequest { request in
+            XCTAssertEqual(request.url, url)
+            XCTAssertEqual(request.httpMethod, "GET")
+            
+            exp.fulfill()
+        }
+        
+        URLSessionHTTPClient().get(from: url, completion: { _ in })
+        
+        wait(for: [exp], timeout: 1)
+        URLProtocolStub.stopInterceptingRequest()
+    }
     
     func test_getFromURL_failsOnRequestError() {
         URLProtocolStub.startInterceptingRequest()
@@ -59,6 +78,7 @@ class URLSeestionHTTPClientTest: XCTestCase {
     private class URLProtocolStub: URLProtocol {
         
         private static var stub: Stub?
+        private static var receivedRequest: ((URLRequest) -> Void)?
         
         private struct Stub {
             let data: Data?
@@ -73,6 +93,11 @@ class URLSeestionHTTPClientTest: XCTestCase {
         static func stopInterceptingRequest() {
             URLProtocol.unregisterClass(URLProtocolStub.self)
             stub = nil
+            receivedRequest = nil
+        }
+        
+        static func observeRequest(observer: @escaping (URLRequest) -> Void) {
+            receivedRequest = observer
         }
         
         static func stub(data: Data?, response: HTTPURLResponse?, error: Error?) {
@@ -81,6 +106,7 @@ class URLSeestionHTTPClientTest: XCTestCase {
         
         // The URL loading system will instantiate our URLProtocolStub only if we can handle the request. So up to this point, we don't have an instance yet.
         override class func canInit(with request: URLRequest) -> Bool {
+            receivedRequest?(request)
             return true
         }
         
