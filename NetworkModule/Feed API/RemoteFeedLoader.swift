@@ -8,7 +8,7 @@
 import Foundation
 
 
-public final class RemoteFeedLoader {
+public final class RemoteFeedLoader: FeedLoader {
     
     private let url: URL
     private let client: HTTPClient
@@ -18,18 +18,15 @@ public final class RemoteFeedLoader {
         case invalidData
     }
     
-    public enum Result: Equatable {
-        case success([FeedItem])
-        case failure(Error)
-    }
+    public typealias Result = LoadFeedResult
     
     public init(url: URL, client: HTTPClient) {
         self.url = url
         self.client = client
     }
     
-    // RemoteFeedLoader is mapping a client error to the domain error, in which case is the connectivity
-    public func load(completion: @escaping (Result) -> Void) {
+    // RemoteFeedLoader is mapping a client error to the domain error which is the connectivity
+    public func load(completion: @escaping (LoadFeedResult) -> Void) {
         client.get(from: url) { [weak self] (result) in
             guard self != nil else { return }
             
@@ -37,7 +34,7 @@ public final class RemoteFeedLoader {
             case let .success(data, response):
                 completion(FeedItemMapper.map(data, from: response))
             case .failure:
-                completion(.failure(.conectivity))
+                completion(.failure(Error.conectivity))
             }
         }
     }
