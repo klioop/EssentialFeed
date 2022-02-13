@@ -135,7 +135,13 @@ class URLSesstionHTTPClientTest: XCTestCase {
         }
     }
     
-    private func resultFor(data: Data?, response: URLResponse?, error: Error?, file: StaticString = #file, line: UInt = #line) -> HTTPClientResult {
+    private func resultFor(
+        data: Data?,
+        response: URLResponse?,
+        error: Error?,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) -> HTTPClientResult {
         URLProtocolStub.stub(data: data, response: response, error: error)
         
         let sut = makeSUT(file: file, line: line)
@@ -192,7 +198,6 @@ class URLSesstionHTTPClientTest: XCTestCase {
         }
         
         override func startLoading() {
-            
             if let data = URLProtocolStub.stub?.data {
                 client?.urlProtocol(self, didLoad: data)
             }
