@@ -63,8 +63,20 @@ class URLSesstionHTTPClientTest: XCTestCase {
         XCTAssertEqual(receivedError.domain, requestedError.domain)
     }
     
-    func test_getFromURL_failsOnAllNilValues() {
+    func test_getFromURL_failsOnAllInvalidRepresentationCases() {
+        let anyData = Data("any Data".utf8)
+        let anyError = NSError(domain: "any error", code: 1)
+        let nonHttpURLResponse = URLResponse(url: anyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
+        let anyHttpURLResponse = HTTPURLResponse(url: anyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)
+        
         XCTAssertNotNil(resultedError(data: nil, response: nil, error: nil))
+        XCTAssertNotNil(resultedError(data: nil, response: nonHttpURLResponse, error: nil))
+        XCTAssertNotNil(resultedError(data: nil, response: anyHttpURLResponse, error: nil))
+        XCTAssertNotNil(resultedError(data: anyData, response: nil, error: nil))
+        XCTAssertNotNil(resultedError(data: anyData, response: nil, error: anyError))
+        XCTAssertNotNil(resultedError(data: anyData, response: nonHttpURLResponse, error: anyError))
+        XCTAssertNotNil(resultedError(data: anyData, response: anyHttpURLResponse, error: anyError))
+        XCTAssertNotNil(resultedError(data: anyData, response: nonHttpURLResponse, error: nil))
     }
     
     // MARK: - Helpers
@@ -80,7 +92,7 @@ class URLSesstionHTTPClientTest: XCTestCase {
         return  URL(string: "https://any-given-url.com")!
     }
     
-    private func resultedError(data: Data?, response: HTTPURLResponse?, error: Error?, file: StaticString = #file, line: UInt = #line) -> Error? {
+    private func resultedError(data: Data?, response: URLResponse?, error: Error?, file: StaticString = #file, line: UInt = #line) -> Error? {
         URLProtocolStub.stub(data: data, response: response, error: error)
         
         let sut = makeSUT(file: file, line: line)
@@ -109,7 +121,7 @@ class URLSesstionHTTPClientTest: XCTestCase {
         
         private struct Stub {
             let data: Data?
-            let response: HTTPURLResponse?
+            let response: URLResponse?
             let error: Error?
         }
         
@@ -127,7 +139,7 @@ class URLSesstionHTTPClientTest: XCTestCase {
             receivedRequest = observer
         }
         
-        static func stub(data: Data?, response: HTTPURLResponse?, error: Error?) {
+        static func stub(data: Data?, response: URLResponse?, error: Error?) {
             stub = Stub(data: data, response: response, error: error)
         }
         
