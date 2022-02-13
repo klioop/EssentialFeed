@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 import NetworkModule
 
-class URLSessionHTTPClient {
+class URLSessionHTTPClient: HTTPClient {
     
     let session: URLSession
     
@@ -106,7 +106,7 @@ class URLSesstionHTTPClientTest: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> URLSessionHTTPClient {
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> HTTPClient {
         let sut = URLSessionHTTPClient()
         trackMemoryLeak(sut, file: file, line: line)
         
