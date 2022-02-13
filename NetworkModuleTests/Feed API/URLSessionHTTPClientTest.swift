@@ -61,67 +61,47 @@ class URLSesstionHTTPClientTest: XCTestCase {
     
     func test_getFromURL_failsOnRequestError() {
         let requestedError = anyNSError()
-        let receivedError = resultedError(data: nil, response: nil, error: requestedError)! as NSError
+        let receivedError = resultedErrorFor(data: nil, response: nil, error: requestedError)! as NSError
         
         XCTAssertEqual(receivedError.domain, requestedError.domain)
     }
     
     func test_getFromURL_failsOnAllInvalidRepresentationCases() {
-        XCTAssertNotNil(resultedError(data: nil, response: nil, error: nil))
-        XCTAssertNotNil(resultedError(data: nil, response: nonHTTPURLResponse(), error: nil))
-        XCTAssertNotNil(resultedError(data: anyData(), response: nil, error: nil))
-        XCTAssertNotNil(resultedError(data: anyData(), response: nil, error: anyNSError()))
-        XCTAssertNotNil(resultedError(data: anyData(), response: nonHTTPURLResponse(), error: anyNSError()))
-        XCTAssertNotNil(resultedError(data: anyData(), response: anyHTTPURLResponse(), error: anyNSError()))
-        XCTAssertNotNil(resultedError(data: anyData(), response: nonHTTPURLResponse(), error: nil))
+        XCTAssertNotNil(resultedErrorFor(data: nil, response: nil, error: nil))
+        XCTAssertNotNil(resultedErrorFor(data: nil, response: nonHTTPURLResponse(), error: nil))
+        XCTAssertNotNil(resultedErrorFor(data: anyData(), response: nil, error: nil))
+        XCTAssertNotNil(resultedErrorFor(data: anyData(), response: nil, error: anyNSError()))
+        XCTAssertNotNil(resultedErrorFor(data: anyData(), response: nonHTTPURLResponse(), error: anyNSError()))
+        XCTAssertNotNil(resultedErrorFor(data: anyData(), response: anyHTTPURLResponse(), error: anyNSError()))
+        XCTAssertNotNil(resultedErrorFor(data: anyData(), response: nonHTTPURLResponse(), error: nil))
     }
     
     func test_getFromURL_suceedsOnHTTPURLResponseWithData() {
         let data = anyData()
         let response = anyHTTPURLResponse()
-        URLProtocolStub.stub(data: data, response: response, error: nil)
-
-        let exp = expectation(description: "Wait for completion")
         
-        makeSUT().get(from: anyURL()) { result in
-            switch result {
-            case let .success(receivedData, receivedResponse):
-                XCTAssertEqual(receivedData, data)
-                // When XCT compares classes, they compare pointers of them
-                // URL loading system internally replace the given response with their own
-                XCTAssertEqual(receivedResponse.url, response?.url)
-                XCTAssertEqual(receivedResponse.statusCode, response?.statusCode)
-            default:
-                XCTFail("Expected success, got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
+        let receivedValues = resultedValuesFor(data: data, response: response, error: nil)
+        
+        XCTAssertEqual(receivedValues?.data, data)
+        // When XCT compares classes, they compare pointers of them
+        // URL loading system internally replace the given response with their own
+        XCTAssertEqual(receivedValues?.response.url, response?.url)
+        XCTAssertEqual(receivedValues?.response.statusCode, response?.statusCode)
     }
     
     // Empty data result is not invalid path. There's status code of 204 representing empty data.
     // We better add the test to validate our assumption about the framework.
     func test_getFromURL_suceedsWithEmptyDataOnHTTPURLResponseWithNilData() {
         let response = anyHTTPURLResponse()
-        URLProtocolStub.stub(data: nil, response: response, error: nil)
-
-        let exp = expectation(description: "Wait for completion")
         
-        makeSUT().get(from: anyURL()) { result in
-            switch result {
-            case let .success(receivedData, receivedResponse):
-                let emptyData = Data()
-                XCTAssertEqual(receivedData, emptyData)
-                // When XCT compares classes, they compare pointers of them
-                // URL loading system internally replace the given response with their own
-                XCTAssertEqual(receivedResponse.url, response?.url)
-                XCTAssertEqual(receivedResponse.statusCode, response?.statusCode)
-            default:
-                XCTFail("Expected success, got \(result) instead")
-            }
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
+        let receivedValues = resultedValuesFor(data: nil, response: response, error: nil)
+                
+        let emptyData = Data()
+        XCTAssertEqual(receivedValues?.data, emptyData)
+        // When XCT compares classes, they compare pointers of them
+        // URL loading system internally replace the given response with their own
+        XCTAssertEqual(receivedValues?.response.url, response?.url)
+        XCTAssertEqual(receivedValues?.response.statusCode, response?.statusCode)
     }
     
     // MARK: - Helpers
@@ -153,26 +133,45 @@ class URLSesstionHTTPClientTest: XCTestCase {
         return URLResponse(url: anyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
     }
     
-    private func resultedError(data: Data?, response: URLResponse?, error: Error?, file: StaticString = #file, line: UInt = #line) -> Error? {
+    private func resultedValuesFor(data: Data?, response: URLResponse?, error: Error?, file: StaticString = #file, line: UInt = #line) -> (data: Data, response: HTTPURLResponse)? {
+        let result = resultFor(data: data, response: response, error: error)
+        
+        switch result {
+        case let .success(data, response):
+            return (data, response)
+        default:
+            XCTFail("Expected success got \(result) instead", file: file, line: line)
+            return nil
+        }
+    }
+    
+    private func resultedErrorFor(data: Data?, response: URLResponse?, error: Error?, file: StaticString = #file, line: UInt = #line) -> Error? {
+        let result = resultFor(data: data, response: response, error: error)
+                
+        switch result {
+        case let .failure(error):
+            return error
+        default:
+            XCTFail("Expected failure with error got \(result) instead", file: file, line: line)
+            return nil
+        }
+    }
+    
+    private func resultFor(data: Data?, response: URLResponse?, error: Error?, file: StaticString = #file, line: UInt = #line) -> HTTPClientResult {
         URLProtocolStub.stub(data: data, response: response, error: error)
         
         let sut = makeSUT(file: file, line: line)
         let exp = expectation(description: "Wait for completion")
         
-        var receivedError: Error?
+        var receivedResult: HTTPClientResult!
         sut.get(from: anyURL()) { result in
-            switch result {
-            case let .failure(error):
-                receivedError = error
-            default:
-                XCTFail("Expected failure with error got \(result) instead", file: file, line: line)
-            }
+            receivedResult = result
             
             exp.fulfill()
         }
         
         wait(for: [exp], timeout: 1)
-        return receivedError
+        return receivedResult
     }
     
     private class URLProtocolStub: URLProtocol {
