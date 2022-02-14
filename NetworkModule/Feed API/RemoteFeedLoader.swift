@@ -10,6 +10,7 @@ import Foundation
 
 public final class RemoteFeedLoader: FeedLoader {
     
+    // url is the detail of the implementation of RemoteFeedLoader. It should not be in the public interface
     private let url: URL
     private let client: HTTPClient
     

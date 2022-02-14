@@ -9,8 +9,6 @@ import Foundation
 import XCTest
 import NetworkModule
 
-// url is the detail of the implementation of RemoteFeedLoader. It should not be in the public interface
-
 
 class RemoteFeedLoaderTest: XCTestCase {
     
