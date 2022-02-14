@@ -24,6 +24,7 @@ class URLSesstionHTTPClientTest: XCTestCase {
     func test_getFromURL_performsGETRequestWithURL() {
         let url = anyURL()
         let exp = expectation(description: "Wait for observe request")
+        exp.expectedFulfillmentCount = 2
         
         URLProtocolStub.observeRequest { request in
             XCTAssertEqual(request.url, url)
@@ -32,7 +33,7 @@ class URLSesstionHTTPClientTest: XCTestCase {
             exp.fulfill()
         }
         
-        makeSUT().get(from: url, completion: { _ in })
+        makeSUT().get(from: url, completion: { _ in exp.fulfill() })
         
         wait(for: [exp], timeout: 1)
     }
