@@ -162,7 +162,7 @@ class URLSesstionHTTPClientTest: XCTestCase {
     private class URLProtocolStub: URLProtocol {
         
         private static var stub: Stub?
-        private static var receivedRequest: ((URLRequest) -> Void)?
+        private static var requestObserver: ((URLRequest) -> Void)?
         
         private struct Stub {
             let data: Data?
@@ -177,11 +177,11 @@ class URLSesstionHTTPClientTest: XCTestCase {
         static func stopInterceptingRequest() {
             URLProtocol.unregisterClass(URLProtocolStub.self)
             stub = nil
-            receivedRequest = nil
+            requestObserver = nil
         }
         
         static func observeRequest(observer: @escaping (URLRequest) -> Void) {
-            receivedRequest = observer
+            requestObserver = observer
         }
         
         static func stub(data: Data?, response: URLResponse?, error: Error?) {
@@ -190,7 +190,6 @@ class URLSesstionHTTPClientTest: XCTestCase {
         
         // The URL loading system will instantiate our URLProtocolStub only if we can handle the request. So up to this point, we don't have an instance yet.
         override class func canInit(with request: URLRequest) -> Bool {
-            receivedRequest?(request)
             return true
         }
         
@@ -199,6 +198,11 @@ class URLSesstionHTTPClientTest: XCTestCase {
         }
         
         override func startLoading() {
+            if let requestObserver = URLProtocolStub.requestObserver {
+                client?.urlProtocolDidFinishLoading(self)
+                return requestObserver(request)
+            }
+            
             if let data = URLProtocolStub.stub?.data {
                 client?.urlProtocol(self, didLoad: data)
             }
