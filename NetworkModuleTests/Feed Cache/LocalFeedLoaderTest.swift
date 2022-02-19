@@ -17,27 +17,39 @@ class LocalFeedLoader {
     }
     
     func save(_ items: [FeedItem]) {
-        store.deletedCacheFeed() { error in
-            
+        store.deletedCacheFeed() { [unowned self] error in
+            if error == nil {
+                self.store.insert(items)
+            }
         }
     }
 }
 
 class FeedStore {
-    typealias DeletionFailCompletion = (Error?) -> Void
+    typealias DeletionCompletion = (Error?) -> Void
     
     var deletionCallCount = 0
     var insertionCallCount = 0
-    var deletionFailCompletions = [DeletionFailCompletion]()
+    var deletionCompletions = [DeletionCompletion]()
     
-    func deletedCacheFeed(completion: @escaping DeletionFailCompletion) {
+    func deletedCacheFeed(completion: @escaping DeletionCompletion) {
         deletionCallCount += 1
-        deletionFailCompletions.append(completion)
+        deletionCompletions.append(completion)
     }
     
-    func complete(with error: Error, at index: Int = 0)  {
-        deletionFailCompletions[index](error)
+    func insert(_ items: [FeedItem]) {
+        insertionCallCount += 1
     }
+    
+    func completeDeletionSuccessfully(with error: Error, at index: Int = 0)  {
+        deletionCompletions[index](error)
+    }
+    
+    func completeInsertionSuccessfully(at index: Int = 0) {
+        deletionCompletions[index](nil)
+    }
+    
+    
 }
 
 class LocalFeedLoaderTest: XCTestCase {
@@ -63,9 +75,19 @@ class LocalFeedLoaderTest: XCTestCase {
         let deletionError = anyNSError()
         
         sut.save(items)
-        store.complete(with: deletionError)
+        store.completeDeletionSuccessfully(with: deletionError)
         
         XCTAssertEqual(store.insertionCallCount, 0)
+    }
+    
+    func test_save_requestsNewCacheInsertionOnSuccessfulDeletion() {
+        let items = [uniuqeItem(), uniuqeItem()]
+        let (sut, store) =  makeSUT()
+        
+        sut.save(items)
+        store.completeInsertionSuccessfully()
+        
+        XCTAssertEqual(store.insertionCallCount, 1)
     }
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStore) {
