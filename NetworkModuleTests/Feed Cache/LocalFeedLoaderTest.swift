@@ -31,7 +31,6 @@ class FeedStore {
     typealias DeletionCompletion = (Error?) -> Void
     
     var deletionCallCount = 0
-    var insertionCallCount = 0
     var insertions = [(items: [FeedItem], timestamp: Date)]()
     var deletionCompletions = [DeletionCompletion]()
     
@@ -80,7 +79,7 @@ class LocalFeedLoaderTest: XCTestCase {
         sut.save(items)
         store.completeDeletionSuccessfully(with: deletionError)
         
-        XCTAssertEqual(store.insertionCallCount, 0)
+        XCTAssertEqual(store.insertions.count, 0)
     }
     
     func test_save_requestsNewCacheInsertionOnSuccessfulDeletion() {
