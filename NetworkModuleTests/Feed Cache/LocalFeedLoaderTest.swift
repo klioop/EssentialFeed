@@ -17,15 +17,26 @@ class LocalFeedLoader {
     }
     
     func save(_ items: [FeedItem]) {
-        store.deletedCacheFeed()
+        store.deletedCacheFeed() { error in
+            
+        }
     }
 }
 
 class FeedStore {
-    var deletionCallCount = 0
+    typealias DeletionFailCompletion = (Error?) -> Void
     
-    func deletedCacheFeed() {
+    var deletionCallCount = 0
+    var insertionCallCount = 0
+    var deletionFailCompletions = [DeletionFailCompletion]()
+    
+    func deletedCacheFeed(completion: @escaping DeletionFailCompletion) {
         deletionCallCount += 1
+        deletionFailCompletions.append(completion)
+    }
+    
+    func complete(with error: Error, at index: Int = 0)  {
+        deletionFailCompletions[index](error)
     }
 }
 
@@ -46,7 +57,18 @@ class LocalFeedLoaderTest: XCTestCase {
         XCTAssertEqual(store.deletionCallCount, 1)
     }
     
-    func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStore) {
+    func test_save_failsOnCacheDeletion() {
+        let items = [uniuqeItem(), uniuqeItem()]
+        let (sut, store) =  makeSUT()
+        let deletionError = anyNSError()
+        
+        sut.save(items)
+        store.complete(with: deletionError)
+        
+        XCTAssertEqual(store.insertionCallCount, 0)
+    }
+    
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStore) {
         let store = FeedStore()
         let sut = LocalFeedLoader(store: store)
         trackMemoryLeak(store, file: file, line: line)
@@ -60,5 +82,9 @@ class LocalFeedLoaderTest: XCTestCase {
     
     private func anyURL() -> URL {
         return URL(string: "https://any-given-url.com")!
+    }
+    
+    private func anyNSError() -> NSError {
+        return NSError(domain: "any error", code: 0)
     }
 }
