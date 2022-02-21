@@ -141,8 +141,8 @@ class RemoteFeedLoaderTest: XCTestCase {
         description: String? = nil,
         location: String? = nil,
         imageURL: URL
-    ) -> (model: FeedItem, json: [String: Any]) {
-        let item = FeedItem(id: id, description: description, location: location, imageURL: imageURL)
+    ) -> (model: FeedImage, json: [String: Any]) {
+        let item = FeedImage(id: id, description: description, location: location, url: imageURL)
         let json: [String: Any] = [
             "id": id.uuidString,
             "description": description,
