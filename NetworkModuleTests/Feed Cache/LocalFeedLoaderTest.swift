@@ -85,7 +85,7 @@ class LocalFeedLoaderTest: XCTestCase {
         let store = FeedStoreSpy()
         var sut: LocalFeedLoader? = .init(store: store, currentDate: Date.init)
         
-        var receivedResult = [Error?]()
+        var receivedResult = [LocalFeedLoader.SaveResult]()
         sut?.save([uniuqeItem()], completion: { receivedResult.append($0) })
         
         sut = nil
@@ -98,7 +98,7 @@ class LocalFeedLoaderTest: XCTestCase {
         let store = FeedStoreSpy()
         var sut: LocalFeedLoader? = .init(store: store, currentDate: Date.init)
         
-        var receivedResult = [Error?]()
+        var receivedResult = [LocalFeedLoader.SaveResult]()
         sut?.save([uniuqeItem()], completion: { receivedResult.append($0) })
         
         store.completeDeletionSuccessfully()
