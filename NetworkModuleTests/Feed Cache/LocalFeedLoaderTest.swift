@@ -20,18 +20,16 @@ class LocalFeedLoaderTest: XCTestCase {
     func test_save_requestsCacheDeletion() {
         let (sut, store) =  makeSUT()
         
-        let items = [uniuqeItem(), uniuqeItem()]
-        sut.save(items) { _ in }
+        sut.save(uniqueItems().models) { _ in }
         
         XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
     }
     
     func test_save_doesNotRequestCahceInsertionOnDeletionError() {
-        let items = [uniuqeItem(), uniuqeItem()]
         let (sut, store) =  makeSUT()
         let deletionError = anyNSError()
         
-        sut.save(items) { _ in }
+        sut.save(uniqueItems().models) { _ in }
         store.completeDeletion(with: deletionError)
         
         XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed])
@@ -40,13 +38,12 @@ class LocalFeedLoaderTest: XCTestCase {
     func test_save_requestsNewCacheInsertionOnWithTimestampSuccessfulDeletion() {
         let timestamp = Date()
         let (sut, store) =  makeSUT(currentDate: { timestamp })
-        let items = [uniuqeItem(), uniuqeItem()]
-        let localItems = items.map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL)}
-        
-        sut.save(items) { _ in }
+        let items = uniqueItems()
+
+        sut.save(items.models) { _ in }
         store.completeDeletionSuccessfully()
         
-        XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed, .insert(localItems, timestamp)])
+        XCTAssertEqual(store.receivedMessages, [.deleteCachedFeed, .insert(items.local, timestamp)])
     }
     
     // test what does save do when deletion fails
@@ -117,7 +114,7 @@ class LocalFeedLoaderTest: XCTestCase {
         let exp = expectation(description: "Wait for save completion")
         
         var receivedError: Error?
-        sut.save([uniuqeItem(), uniuqeItem()]) { error in
+        sut.save(uniqueItems().models) { error in
             receivedError = error
             exp.fulfill()
         }
@@ -131,6 +128,13 @@ class LocalFeedLoaderTest: XCTestCase {
     
     private func uniuqeItem() -> FeedItem {
         return FeedItem(id: .init(), description: "any", location: "any", imageURL: anyURL())
+    }
+    
+    private func uniqueItems() -> (models: [FeedItem], local: [LocalFeedItem]) {
+        let models = [uniuqeItem(), uniuqeItem()]
+        let localItems = models.map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL)}
+        
+        return (models, localItems)
     }
     
     private func anyURL() -> URL {
