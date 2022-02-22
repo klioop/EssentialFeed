@@ -11,6 +11,7 @@ import NetworkModule
 class FeedStoreSpy: FeedStore {
     typealias DeletionCompletion = (Error?) -> Void
     typealias InsertionCompletion = (Error?) -> Void
+    typealias RetrivialCompletion = (Error?) -> Void
     
     enum ReceivedMessages: Equatable {
         case deleteCachedFeed
@@ -22,6 +23,7 @@ class FeedStoreSpy: FeedStore {
     
     var deletionCompletions = [DeletionCompletion]()
     var insertionCompletions = [InsertionCompletion]()
+    var retrievalCompletions = [RetrivialCompletion]()
     
     func deletedCacheFeed(completion: @escaping DeletionCompletion) {
         deletionCompletions.append(completion)
@@ -49,7 +51,12 @@ class FeedStoreSpy: FeedStore {
         insertionCompletions[index](nil)
     }
     
-    func retrieve() {
+    func retrieve(completion: @escaping RetrivialCompletion) {
+        retrievalCompletions.append(completion)
         receivedMessages.append(.retrieve)
+    }
+    
+    func completeRetrieval(with error: Error, at index: Int = 0) {
+        retrievalCompletions[index](error)
     }
 }
