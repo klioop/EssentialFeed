@@ -7,6 +7,7 @@
 
 import XCTest
 import NetworkModule
+import Network
 
 class LoadFeedFromCacheUseCaseTests: XCTestCase {
     
@@ -126,6 +127,20 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         store.completeRetrieval(with: feed.local, timestamp: moreThansevenDaysOldTimestamp)
         
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedFeed])
+    }
+    
+    func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
+        let store = FeedStoreSpy()
+        var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
+        
+        var receivedResult = [LocalFeedLoader.LoadResult]()
+        sut?.load { receivedResult.append($0) }
+        
+        sut = nil
+        store.completeRetrieval(with: uniqueImageFeed().local, timestamp: Date())
+        
+        XCTAssertTrue(receivedResult.isEmpty)
+        
     }
     
     private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
