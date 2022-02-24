@@ -8,10 +8,6 @@
 import Foundation
 import NetworkModule
 
-
-
-
-
 func uniuqeImage() -> FeedImage {
     return FeedImage(id: .init(), description: "any", location: "any", url: anyURL())
 }
