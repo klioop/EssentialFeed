@@ -117,11 +117,11 @@ class CodableFeedStoreTests: XCTestCase {
     }
     
     func test_delete_deliversErrorOnDeletionError() {
-        let nonPermissionURL = cachesDirectory()
-        let sut = makeSUT(storeURL: nonPermissionURL)
+        let sut = makeSUT(storeURL: noDeletePermissionURL())
         
         let deletionError = deleteCache(from: sut)
         XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
+        expect(sut, toRetrieve: .empty)
     }
     
     func test_sideEffects_runSerially() {
@@ -232,6 +232,10 @@ class CodableFeedStoreTests: XCTestCase {
     
     private func cachesDirectory() -> URL {
         FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+    }
+    
+    private func noDeletePermissionURL() -> URL {
+        FileManager.default.urls(for: .cachesDirectory, in: .systemDomainMask).first!
     }
     
 }
