@@ -124,6 +124,35 @@ class CodableFeedStoreTests: XCTestCase {
         XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
     }
     
+    func test_sideEffects_runSerially() {
+        let sut = makeSUT()
+        var completedOperatoinsInOrder = [XCTestExpectation]()
+        
+        let op1 = expectation(description: "operation1")
+        sut.insert(uniqueImageFeed().local, timestamp: Date()) { _ in
+            completedOperatoinsInOrder.append(op1)
+            op1.fulfill()
+        }
+        
+        let op2 = expectation(description: "operation2")
+        sut.deletedCacheFeed { _ in
+            completedOperatoinsInOrder.append(op2)
+            op2.fulfill()
+        }
+        
+        let op3 = expectation(description: "operation3")
+        sut.insert(uniqueImageFeed().local, timestamp: Date()) { _ in
+            completedOperatoinsInOrder.append(op3)
+            op3.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5.0)
+        
+        XCTAssertEqual(completedOperatoinsInOrder, [op1, op2, op3], "Expected side-effects to run serailly but operations finished in the wrong order")
+    }
+    
+    
+    
     private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
         let sut = CodableFeedStore(storeURL: storeURL ?? testSpecificStoreURL())
         trackMemoryLeak(sut, file: file, line: line)
