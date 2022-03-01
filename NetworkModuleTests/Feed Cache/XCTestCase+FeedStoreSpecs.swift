@@ -68,13 +68,50 @@ extension FeedStoreSpecs where Self: XCTestCase {
     
     func assertThatInsertDeliversErrorOnInsertionError(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
         let insertionError = insert((uniqueImageFeed().local, Date()), to: sut)
-        XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error")
+        XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error", file: file, line: line)
     }
     
     func assertThatInsertHasNoSideEffectsOnInsertionError(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
         insert((uniqueImageFeed().local, Date()), to: sut)
         
-        expect(sut, toRetrieve: .empty)
+        expect(sut, toRetrieve: .empty, file: file, line: line)
+    }
+    
+    func assertThatDeleteDeliversNoErrorOnEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+        let deletionError = deleteCache(from: sut)
+        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed", file: file, line: line)
+    }
+    
+    func assertThatDeleteHasNoSideEffectsOnEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+        deleteCache(from: sut)
+        
+        expect(sut, toRetrieve: .empty, file: file, line: line)
+    }
+    
+    func assertThatDeleteDeliversNoErrorOnNonEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+        insert((uniqueImageFeed().local, Date()), to: sut)
+        
+        let deletionError = deleteCache(from: sut)
+        XCTAssertNil(deletionError, "Expected non-empty cache deletion to succeed")
+    }
+    
+    func assertThatDeleteEmptiesPreviouslyInsertedCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+        insert((uniqueImageFeed().local, Date()), to: sut)
+        
+        deleteCache(from: sut)
+        
+        expect(sut, toRetrieve: .empty, file: file, line: line)
+    }
+    
+    func assertThatDeleteDeliversErrorOnDeletionError(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+        let deletionError = deleteCache(from: sut)
+        XCTAssertNotNil(deletionError, "Expected cache deletion to fail", file: file, line: line)
+    }
+    
+    func assertThatDeleteHasNoSideEffectsOnDeletionError(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+        deleteCache(from: sut)
+        
+        expect(sut, toRetrieve: .empty, file: file, line: line)
     }
     
     @discardableResult
