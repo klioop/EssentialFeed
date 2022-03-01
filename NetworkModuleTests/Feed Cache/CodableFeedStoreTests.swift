@@ -199,68 +199,11 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         XCTAssertEqual(completedOperatoinsInOrder, [op1, op2, op3], "Expected side-effects to run serailly but operations finished in the wrong order")
     }
     
-    
-    
     private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
         let sut = CodableFeedStore(storeURL: storeURL ?? testSpecificStoreURL())
         trackMemoryLeak(sut, file: file, line: line)
         
         return sut
-    }
-    
-    @discardableResult
-    private func deleteCache(from sut: FeedStore) -> Error? {
-        let exp = expectation(description: "Wait for deledtedCacheFeed completion")
-        
-        var receivedError: Error?
-        sut.deletedCacheFeed { error in
-            receivedError = error
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
-        return receivedError
-    }
-    
-    @discardableResult
-    private func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: FeedStore) -> Error? {
-        let exp = expectation(description: "Wait for insert completion")
-        
-        var receivedError: Error?
-        sut.insert(cache.feed, timestamp: cache.timestamp) { insertionError in
-            receivedError = insertionError
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
-        return receivedError
-    }
-    
-    private func expect(_ sut: FeedStore, toRetrieve expectedResult: RetrieveCachedFeedResult, file: StaticString = #filePath, line: UInt = #line) {
-        let exp = expectation(description: "Wait for retrieve completion")
-        
-        sut.retrieve { retrievedResult in
-            switch (retrievedResult, expectedResult) {
-            case (.empty, .empty),
-                (.failure, .failure):
-                break
-                
-            case let (.found(retrieved), .found(expected)):
-                XCTAssertEqual(retrieved.feed, expected.feed, file: file, line: line)
-                XCTAssertEqual(retrieved.timestamp, expected.timestamp, file: file, line: line)
-                
-            default:
-                XCTFail("Expected to retrieve \(expectedResult), got \(retrievedResult) instead", file: file, line: line)
-            }
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 1.0)
-    }
-    
-    private func expect(_ sut: FeedStore, toRetrieveTwice expectedResult: RetrieveCachedFeedResult, file: StaticString = #filePath, line: UInt = #line) {
-        expect(sut, toRetrieve: expectedResult)
-        expect(sut, toRetrieve: expectedResult)
     }
     
     private func setupEmptyStoreState() {
