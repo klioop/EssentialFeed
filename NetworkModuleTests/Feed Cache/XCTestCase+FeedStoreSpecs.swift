@@ -114,7 +114,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
         expect(sut, toRetrieve: .empty, file: file, line: line)
     }
     
-    func assertThatSideEffectsRurnSerially(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+    func assertThatSideEffectsRunSerially(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
         var completedOperatoinsInOrder = [XCTestExpectation]()
         
         let op1 = expectation(description: "operation1")

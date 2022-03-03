@@ -135,7 +135,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
     func test_sideEffects_runSerially() {
         let sut = makeSUT()
         
-        assertThatSideEffectsRurnSerially(on: sut)
+        assertThatSideEffectsRunSerially(on: sut)
     }
     
     private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
