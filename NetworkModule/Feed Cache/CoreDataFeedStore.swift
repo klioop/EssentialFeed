@@ -49,7 +49,7 @@ public class CoreDataFeedStore: FeedStore {
     }
     
     public func deletedCacheFeed(completion: @escaping DeletionCompletion) {
-        
+        completion(nil)
     }
 }
 
