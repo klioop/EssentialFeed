@@ -9,7 +9,6 @@ import CoreData
 
 public class CoreDataFeedStore: FeedStore {
     private let container: NSPersistentContainer
-    
     private let context: NSManagedObjectContext
     
     public init(storeURL: URL, bundle: Bundle = .main) throws {
