@@ -9,8 +9,8 @@ import Foundation
 import NetworkModule
 
 class FeedStoreSpy: FeedStore {
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) -> Void
+    typealias DeletionCompletion = (FeedStore.DeletionResult) -> Void
+    typealias InsertionCompletion = (FeedStore.InsertionResult) -> Void
     typealias RetrivialCompletion = (FeedStore.RetrievalResult ) -> Void
     
     enum ReceivedMessages: Equatable {
@@ -36,19 +36,19 @@ class FeedStoreSpy: FeedStore {
     }
     
     func completeDeletion(with error: Error, at index: Int = 0)  {
-        deletionCompletions[index](error)
+        deletionCompletions[index](.failure(error))
     }
     
     func completeDeletionSuccessfully(at index: Int = 0) {
-        deletionCompletions[index](nil)
+        deletionCompletions[index](.success(()))
     }
     
     func completeInsertion(with error: Error, at index: Int = 0)  {
-        insertionCompletions[index](error)
+        insertionCompletions[index](.failure(error))
     }
     
     func completeInsertionSuccessfully(at index: Int = 0) {
-        insertionCompletions[index](nil)
+        insertionCompletions[index](.success(()))
     }
     
     func retrieve(completion: @escaping RetrivialCompletion) {
