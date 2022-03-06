@@ -19,7 +19,7 @@ public final class RemoteFeedLoader: FeedLoader {
         case invalidData
     }
     
-    public typealias Result = LoadFeedResult
+    public typealias Result = FeedLoader.Result
     
     public init(url: URL, client: HTTPClient) {
         self.url = url
@@ -27,7 +27,7 @@ public final class RemoteFeedLoader: FeedLoader {
     }
     
     // RemoteFeedLoader is mapping a client error to the domain error which is the connectivity
-    public func load(completion: @escaping (LoadFeedResult) -> Void) {
+    public func load(completion: @escaping (FeedLoader.Result) -> Void) {
         client.get(from: url) { [weak self] (result) in
             guard self != nil else { return }
             
