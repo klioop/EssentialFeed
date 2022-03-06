@@ -63,7 +63,7 @@ class URLSesstionHTTPClientTest: XCTestCase {
         
         XCTAssertEqual(receivedValues?.data, data)
         // When XCT compares classes, they compare pointers of them
-        // URL loading system internally replace the given response with their own
+        // URL loading system ly replace the given response with their own
         XCTAssertEqual(receivedValues?.response.url, response?.url)
         XCTAssertEqual(receivedValues?.response.statusCode, response?.statusCode)
     }
@@ -78,7 +78,7 @@ class URLSesstionHTTPClientTest: XCTestCase {
         let emptyData = Data()
         XCTAssertEqual(receivedValues?.data, emptyData)
         // When XCT compares classes, they compare pointers of them
-        // URL loading system internally replace the given response with their own
+        // URL loading system ly replace the given response with their own
         XCTAssertEqual(receivedValues?.response.url, response?.url)
         XCTAssertEqual(receivedValues?.response.statusCode, response?.statusCode)
     }
