@@ -31,6 +31,7 @@
 		31CB194327D38CA000EB1FD0 /* ManagedFeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB194227D38CA000EB1FD0 /* ManagedFeedItem.swift */; };
 		31CB194B27D4B01100EB1FD0 /* NetworkModuleCacheIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB194A27D4B01100EB1FD0 /* NetworkModuleCacheIntegrationTests.swift */; };
 		31CB194C27D4B01100EB1FD0 /* NetworkModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31004AB727B238FB0017F6A1 /* NetworkModule.framework */; };
+		31CB195227D4B66800EB1FD0 /* XCTestCase+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313D1A7E27B8CDAE00767A53 /* XCTestCase+Tracking.swift */; };
 		31E72C6327C136B600E9C758 /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E72C6227C136B600E9C758 /* CacheFeedUseCaseTests.swift */; };
 		31E72C6627C3AC4400E9C758 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E72C6527C3AC4400E9C758 /* LocalFeedLoader.swift */; };
 		31E72C6827C3ACC600E9C758 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E72C6727C3ACC600E9C758 /* FeedStore.swift */; };
@@ -531,6 +532,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				31CB194B27D4B01100EB1FD0 /* NetworkModuleCacheIntegrationTests.swift in Sources */,
+				31CB195227D4B66800EB1FD0 /* XCTestCase+Tracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
