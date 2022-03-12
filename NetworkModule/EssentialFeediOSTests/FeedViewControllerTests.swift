@@ -7,11 +7,12 @@
 
 import XCTest
 import UIKit
+import NetworkModule
 
 class FeedViewController: UIViewController {
-    var loader: FeedViewControllerTests.FeedLoaderSpy?
+    var loader: FeedLoader?
     
-    convenience init(loader: FeedViewControllerTests.FeedLoaderSpy) {
+    convenience init(loader: FeedLoader) {
         self.init()
         self.loader = loader
     }
@@ -19,7 +20,7 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loader?.load()
+        loader?.load { _ in }
     }
 }
 
@@ -41,10 +42,10 @@ class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 1)
     }
     
-    class FeedLoaderSpy {
+    class FeedLoaderSpy: FeedLoader {
         private(set) var loadCallCount = 0
         
-        func load() {
+        func load(completion: @escaping (FeedLoader.Result) -> Void) {
             loadCallCount += 1
         }
     }

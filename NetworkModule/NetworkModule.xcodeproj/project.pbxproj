@@ -36,6 +36,8 @@
 		31CB195427D4BAD400EB1FD0 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E72C7727C7A73800E9C758 /* SharedTestHelpers.swift */; };
 		31CB19C627D8DE3200EB1FD0 /* EssentialFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31CB19BE27D8DE3200EB1FD0 /* EssentialFeediOS.framework */; };
 		31CB19D427DC555400EB1FD0 /* FeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB19D327DC555400EB1FD0 /* FeedViewControllerTests.swift */; };
+		31CB19D627DC585700EB1FD0 /* NetworkModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31004AB727B238FB0017F6A1 /* NetworkModule.framework */; };
+		31CB19D727DC585700EB1FD0 /* NetworkModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 31004AB727B238FB0017F6A1 /* NetworkModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		31E72C6327C136B600E9C758 /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E72C6227C136B600E9C758 /* CacheFeedUseCaseTests.swift */; };
 		31E72C6627C3AC4400E9C758 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E72C6527C3AC4400E9C758 /* LocalFeedLoader.swift */; };
 		31E72C6827C3ACC600E9C758 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E72C6727C3ACC600E9C758 /* FeedStore.swift */; };
@@ -80,7 +82,28 @@
 			remoteGlobalIDString = 31CB19BD27D8DE3200EB1FD0;
 			remoteInfo = EssentialFeediOS;
 		};
+		31CB19D827DC585700EB1FD0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31004AAE27B238FB0017F6A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 31004AB627B238FB0017F6A1;
+			remoteInfo = NetworkModule;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		31CB19DA27DC585700EB1FD0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				31CB19D727DC585700EB1FD0 /* NetworkModule.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		31004AB727B238FB0017F6A1 /* NetworkModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NetworkModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +184,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31CB19D627DC585700EB1FD0 /* NetworkModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +209,7 @@
 				31CB19BF27D8DE3200EB1FD0 /* EssentialFeediOS */,
 				31CB19C927D8DE3200EB1FD0 /* EssentialFeediOSTests */,
 				31004AB827B238FB0017F6A1 /* Products */,
+				31CB19D527DC585700EB1FD0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -319,6 +344,13 @@
 				31CB19D327DC555400EB1FD0 /* FeedViewControllerTests.swift */,
 			);
 			path = EssentialFeediOSTests;
+			sourceTree = "<group>";
+		};
+		31CB19D527DC585700EB1FD0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		31E72C6127C1362800E9C758 /* Feed Cache */ = {
@@ -458,10 +490,12 @@
 				31CB19BA27D8DE3200EB1FD0 /* Sources */,
 				31CB19BB27D8DE3200EB1FD0 /* Frameworks */,
 				31CB19BC27D8DE3200EB1FD0 /* Resources */,
+				31CB19DA27DC585700EB1FD0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				31CB19D927DC585700EB1FD0 /* PBXTargetDependency */,
 			);
 			name = EssentialFeediOS;
 			productName = EssentialFeediOS;
@@ -689,6 +723,11 @@
 			isa = PBXTargetDependency;
 			target = 31CB19BD27D8DE3200EB1FD0 /* EssentialFeediOS */;
 			targetProxy = 31CB19C727D8DE3200EB1FD0 /* PBXContainerItemProxy */;
+		};
+		31CB19D927DC585700EB1FD0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 31004AB627B238FB0017F6A1 /* NetworkModule */;
+			targetProxy = 31CB19D827DC585700EB1FD0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
