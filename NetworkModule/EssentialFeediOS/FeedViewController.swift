@@ -10,6 +10,7 @@ import NetworkModule
 
 public protocol FeedImageDataLoader {
     func loadImageData(from url: URL)
+    func cancelImageDataLoad(from url: URL)
 }
 
 final public class FeedViewController: UITableViewController {
@@ -47,12 +48,17 @@ final public class FeedViewController: UITableViewController {
     }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let model = tableModel[indexPath.row]
+        let cellModel = tableModel[indexPath.row]
         let cell = FeedImageCell()
-        cell.locationContainer.isHidden = (model.location == nil)
-        cell.descriptionLabel.text = model.description
-        cell.locationLabel.text = model.location
-        imageLoader?.loadImageData(from: model.url)
+        cell.locationContainer.isHidden = (cellModel.location == nil)
+        cell.descriptionLabel.text = cellModel.description
+        cell.locationLabel.text = cellModel.location
+        imageLoader?.loadImageData(from: cellModel.url)
         return cell
+    }
+    
+    public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cellModel = tableModel[indexPath.row]
+        imageLoader?.cancelImageDataLoad(from: cellModel.url)
     }
 }
