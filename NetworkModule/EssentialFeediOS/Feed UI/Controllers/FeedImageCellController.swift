@@ -8,46 +8,37 @@
 import UIKit
 import NetworkModule
 
-final class FeedImageCellController {
-    let viewModel: FeedImageViewModel<UIImage>
+final class FeedImageCellController: FeedImageView {
+    private lazy var cell = FeedImageCell()
     
-    init(viewModel: FeedImageViewModel<UIImage>) {
-        self.viewModel = viewModel
+    let loadImageData: () -> Void
+    let cancelImageDataLoad: () -> Void
+    
+    init(loadImageData: @escaping () -> Void, cancelImageDataLoad: @escaping () -> Void) {
+        self.loadImageData = loadImageData
+        self.cancelImageDataLoad = cancelImageDataLoad
     }
     
     func view() -> UITableViewCell {
-        let cell = binded(FeedImageCell())
-        viewModel.loadImageData()
-        
+        loadImageData()
         return cell
     }
     
-    private func binded(_ cell: FeedImageCell) -> UITableViewCell {
-        cell.locationContainer.isHidden = !viewModel.hasLocation
-        cell.descriptionLabel.text = viewModel.description
-        cell.locationLabel.text = viewModel.location
-        cell.onRetry = viewModel.loadImageData
-                
-        viewModel.onImageLoad = { [weak cell] image in
-            cell?.feedImageView.image = image
-        }
-        
-        viewModel.onImageLoadingStateChage = { [weak cell] isLoading in
-            cell?.feedImageContainer.isShimmering = isLoading
-        }
-        
-        viewModel.onShouldRetryImageLoadStateChange = { [weak cell] shouldRetry in
-            cell?.feedImageRetryButton.isHidden = !shouldRetry
-        }
-        
-        return cell
+    func display(_ model: FeedImageViewData<UIImage>) {
+        cell.descriptionLabel.text = model.description
+        cell.locationContainer.isHidden = !model.hasLocation
+        cell.locationLabel.text = model.location
+        cell.feedImageContainer.isShimmering = model.isLoading
+        cell.feedImageView.image = model.image
+        cell.feedImageRetryButton.isHidden = !model.shouldRetry
+        cell.onRetry = loadImageData
     }
     
     func preload() {
-        viewModel.loadImageData()
+        loadImageData()
     }
     
     func cancelLoad() {
-        viewModel.cancelImageDataLoad()
+        cancelImageDataLoad()
     }
 }
