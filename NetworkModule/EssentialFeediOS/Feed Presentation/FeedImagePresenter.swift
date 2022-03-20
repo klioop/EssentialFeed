@@ -8,22 +8,10 @@
 import Foundation
 import NetworkModule
 
-struct FeedImageViewData<Image> {
-    let description: String?
-    let location: String?
-    let isLoading: Bool
-    let shouldRetry: Bool
-    let image: Image?
-    
-    var hasLocation: Bool {
-        location != nil
-    }
-}
-
 protocol FeedImageView {
     associatedtype Image
     
-    func display(_ model: FeedImageViewData<Image>)
+    func display(_ model: FeedImageViewModel<Image>)
 }
 
 final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == Image {
@@ -38,17 +26,17 @@ final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == I
     struct InvalidDataError: Error {}
    
     func didStartLoadingImageData(for model: FeedImage) {
-        view.display(FeedImageViewData(description: model.description, location: model.location, isLoading: true, shouldRetry: false, image: nil))
+        view.display(FeedImageViewModel(description: model.description, location: model.location, isLoading: true, shouldRetry: false, image: nil))
     }
     
     func didFinishLoadingImageData(with data: Data, for model: FeedImage) {
         guard let image = imageTransFormer(data) else {
             return didFinishLoadingImageData(with: InvalidDataError(), for: model)
         }
-        view.display(FeedImageViewData(description: model.description, location: model.location, isLoading: false, shouldRetry: false, image: image))
+        view.display(FeedImageViewModel(description: model.description, location: model.location, isLoading: false, shouldRetry: false, image: image))
     }
     
     func didFinishLoadingImageData(with error: Error, for model: FeedImage) {
-        view.display(FeedImageViewData(description: model.description, location: model.location, isLoading: false, shouldRetry: true, image: nil))
+        view.display(FeedImageViewModel(description: model.description, location: model.location, isLoading: false, shouldRetry: true, image: nil))
     }
 }
