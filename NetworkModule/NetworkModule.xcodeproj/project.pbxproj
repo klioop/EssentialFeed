@@ -64,6 +64,7 @@
 		31EC8C6A27E73ADE00BD0645 /* FeedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C6927E73ADE00BD0645 /* FeedImageViewModel.swift */; };
 		31EC8C6C27E73B4600BD0645 /* FeedLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C6B27E73B4600BD0645 /* FeedLoadingViewModel.swift */; };
 		31EC8C6E27E73B6600BD0645 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C6D27E73B6600BD0645 /* FeedViewModel.swift */; };
+		31EC8C7027E8C03A00BD0645 /* UITableView+dequeueing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C6F27E8C03A00BD0645 /* UITableView+dequeueing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +172,7 @@
 		31EC8C6927E73ADE00BD0645 /* FeedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewModel.swift; sourceTree = "<group>"; };
 		31EC8C6B27E73B4600BD0645 /* FeedLoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoadingViewModel.swift; sourceTree = "<group>"; };
 		31EC8C6D27E73B6600BD0645 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		31EC8C6F27E8C03A00BD0645 /* UITableView+dequeueing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+dequeueing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -352,6 +354,7 @@
 			children = (
 				31CB19DE27DDDEEB00EB1FD0 /* FeedImageCell.swift */,
 				31CB19E027DDFC9100EB1FD0 /* UIView+Shimmering.swift */,
+				31EC8C6F27E8C03A00BD0645 /* UITableView+dequeueing.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -820,6 +823,7 @@
 				31CB19DF27DDDEEB00EB1FD0 /* FeedImageCell.swift in Sources */,
 				317A7E9527E0C24B00B6F5E8 /* FeedImageCellController.swift in Sources */,
 				317A7E9827E0D61700B6F5E8 /* FeedUIComposer.swift in Sources */,
+				31EC8C7027E8C03A00BD0645 /* UITableView+dequeueing.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
