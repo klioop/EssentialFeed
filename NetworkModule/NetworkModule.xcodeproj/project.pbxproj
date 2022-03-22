@@ -71,6 +71,7 @@
 		31EC8C7827E8C35500BD0645 /* FeedLoaderSpy+FeedImageDataLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7727E8C35500BD0645 /* FeedLoaderSpy+FeedImageDataLoaderSpy.swift */; };
 		31EC8C7A27E8C39800BD0645 /* UIKIt+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7927E8C39800BD0645 /* UIKIt+Helpers.swift */; };
 		31EC8C7C27E9EB0C00BD0645 /* UITableView+register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7B27E9EB0C00BD0645 /* UITableView+register.swift */; };
+		31EC8C7E27E9EFF400BD0645 /* Feed.strings in Resources */ = {isa = PBXBuildFile; fileRef = 31EC8C7D27E9EFF400BD0645 /* Feed.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,6 +186,7 @@
 		31EC8C7727E8C35500BD0645 /* FeedLoaderSpy+FeedImageDataLoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedLoaderSpy+FeedImageDataLoaderSpy.swift"; sourceTree = "<group>"; };
 		31EC8C7927E8C39800BD0645 /* UIKIt+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKIt+Helpers.swift"; sourceTree = "<group>"; };
 		31EC8C7B27E9EB0C00BD0645 /* UITableView+register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+register.swift"; sourceTree = "<group>"; };
+		31EC8C7D27E9EFF400BD0645 /* Feed.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Feed.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -523,6 +525,7 @@
 				31EC8C6927E73ADE00BD0645 /* FeedImageViewModel.swift */,
 				31EC8C6B27E73B4600BD0645 /* FeedLoadingViewModel.swift */,
 				31EC8C6D27E73B6600BD0645 /* FeedViewModel.swift */,
+				31EC8C7D27E9EFF400BD0645 /* Feed.strings */,
 			);
 			path = "Feed Presentation";
 			sourceTree = "<group>";
@@ -748,6 +751,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31EC8C7E27E9EFF400BD0645 /* Feed.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
