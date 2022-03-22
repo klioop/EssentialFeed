@@ -72,6 +72,7 @@
 		31EC8C7A27E8C39800BD0645 /* UIKIt+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7927E8C39800BD0645 /* UIKIt+Helpers.swift */; };
 		31EC8C7C27E9EB0C00BD0645 /* UITableView+register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7B27E9EB0C00BD0645 /* UITableView+register.swift */; };
 		31EC8C7E27E9EFF400BD0645 /* Feed.strings in Resources */ = {isa = PBXBuildFile; fileRef = 31EC8C7D27E9EFF400BD0645 /* Feed.strings */; };
+		31EC8C8027E9F65B00BD0645 /* FeedViewControllerTests+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7F27E9F65B00BD0645 /* FeedViewControllerTests+Localization.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -187,6 +188,7 @@
 		31EC8C7927E8C39800BD0645 /* UIKIt+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKIt+Helpers.swift"; sourceTree = "<group>"; };
 		31EC8C7B27E9EB0C00BD0645 /* UITableView+register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+register.swift"; sourceTree = "<group>"; };
 		31EC8C7D27E9EFF400BD0645 /* Feed.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Feed.strings; sourceTree = "<group>"; };
+		31EC8C7F27E9F65B00BD0645 /* FeedViewControllerTests+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewControllerTests+Localization.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -406,6 +408,7 @@
 				31EC8C7527E8C2E400BD0645 /* FeedImageCell+Helpers.swift */,
 				31EC8C7727E8C35500BD0645 /* FeedLoaderSpy+FeedImageDataLoaderSpy.swift */,
 				31EC8C7927E8C39800BD0645 /* UIKIt+Helpers.swift */,
+				31EC8C7F27E9F65B00BD0645 /* FeedViewControllerTests+Localization.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -855,6 +858,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31EC8C8027E9F65B00BD0645 /* FeedViewControllerTests+Localization.swift in Sources */,
 				31CB19D427DC555400EB1FD0 /* FeedViewControllerTests.swift in Sources */,
 				31CB19DB27DC593E00EB1FD0 /* XCTestCase+Tracking.swift in Sources */,
 				31EC8C7A27E8C39800BD0645 /* UIKIt+Helpers.swift in Sources */,
