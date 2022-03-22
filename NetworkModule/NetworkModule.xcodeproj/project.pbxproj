@@ -70,6 +70,7 @@
 		31EC8C7627E8C2E400BD0645 /* FeedImageCell+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7527E8C2E400BD0645 /* FeedImageCell+Helpers.swift */; };
 		31EC8C7827E8C35500BD0645 /* FeedLoaderSpy+FeedImageDataLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7727E8C35500BD0645 /* FeedLoaderSpy+FeedImageDataLoaderSpy.swift */; };
 		31EC8C7A27E8C39800BD0645 /* UIKIt+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7927E8C39800BD0645 /* UIKIt+Helpers.swift */; };
+		31EC8C7C27E9EB0C00BD0645 /* UITableView+register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7B27E9EB0C00BD0645 /* UITableView+register.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +184,7 @@
 		31EC8C7527E8C2E400BD0645 /* FeedImageCell+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedImageCell+Helpers.swift"; sourceTree = "<group>"; };
 		31EC8C7727E8C35500BD0645 /* FeedLoaderSpy+FeedImageDataLoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedLoaderSpy+FeedImageDataLoaderSpy.swift"; sourceTree = "<group>"; };
 		31EC8C7927E8C39800BD0645 /* UIKIt+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKIt+Helpers.swift"; sourceTree = "<group>"; };
+		31EC8C7B27E9EB0C00BD0645 /* UITableView+register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+register.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,6 +368,7 @@
 				31CB19E027DDFC9100EB1FD0 /* UIView+Shimmering.swift */,
 				31EC8C6F27E8C03A00BD0645 /* UITableView+dequeueing.swift */,
 				31EC8C7127E8C19F00BD0645 /* UIImageView+Animations.swift */,
+				31EC8C7B27E9EB0C00BD0645 /* UITableView+register.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -840,6 +843,7 @@
 				317A7E9527E0C24B00B6F5E8 /* FeedImageCellController.swift in Sources */,
 				317A7E9827E0D61700B6F5E8 /* FeedUIComposer.swift in Sources */,
 				31EC8C7027E8C03A00BD0645 /* UITableView+dequeueing.swift in Sources */,
+				31EC8C7C27E9EB0C00BD0645 /* UITableView+register.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
