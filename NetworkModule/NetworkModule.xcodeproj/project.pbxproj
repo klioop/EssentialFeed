@@ -73,6 +73,7 @@
 		31EC8C7C27E9EB0C00BD0645 /* UITableView+register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7B27E9EB0C00BD0645 /* UITableView+register.swift */; };
 		31EC8C7E27E9EFF400BD0645 /* Feed.strings in Resources */ = {isa = PBXBuildFile; fileRef = 31EC8C7D27E9EFF400BD0645 /* Feed.strings */; };
 		31EC8C8027E9F65B00BD0645 /* FeedViewControllerTests+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C7F27E9F65B00BD0645 /* FeedViewControllerTests+Localization.swift */; };
+		31EC8C8227E9F6F100BD0645 /* FeedViewControllerTests+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EC8C8127E9F6F100BD0645 /* FeedViewControllerTests+Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +190,7 @@
 		31EC8C7B27E9EB0C00BD0645 /* UITableView+register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+register.swift"; sourceTree = "<group>"; };
 		31EC8C7D27E9EFF400BD0645 /* Feed.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Feed.strings; sourceTree = "<group>"; };
 		31EC8C7F27E9F65B00BD0645 /* FeedViewControllerTests+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewControllerTests+Localization.swift"; sourceTree = "<group>"; };
+		31EC8C8127E9F6F100BD0645 /* FeedViewControllerTests+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewControllerTests+Helpers.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,6 +411,7 @@
 				31EC8C7727E8C35500BD0645 /* FeedLoaderSpy+FeedImageDataLoaderSpy.swift */,
 				31EC8C7927E8C39800BD0645 /* UIKIt+Helpers.swift */,
 				31EC8C7F27E9F65B00BD0645 /* FeedViewControllerTests+Localization.swift */,
+				31EC8C8127E9F6F100BD0645 /* FeedViewControllerTests+Helpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -862,6 +865,7 @@
 				31CB19D427DC555400EB1FD0 /* FeedViewControllerTests.swift in Sources */,
 				31CB19DB27DC593E00EB1FD0 /* XCTestCase+Tracking.swift in Sources */,
 				31EC8C7A27E8C39800BD0645 /* UIKIt+Helpers.swift in Sources */,
+				31EC8C8227E9F6F100BD0645 /* FeedViewControllerTests+Helpers.swift in Sources */,
 				31EC8C7427E8C27000BD0645 /* FeedViewController+Helpers.swift in Sources */,
 				31EC8C7627E8C2E400BD0645 /* FeedImageCell+Helpers.swift in Sources */,
 				31EC8C7827E8C35500BD0645 /* FeedLoaderSpy+FeedImageDataLoaderSpy.swift in Sources */,
