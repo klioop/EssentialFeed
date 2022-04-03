@@ -26,7 +26,10 @@ public final class FeedUIComposer {
     }
     
     static func makeFeedViewController(with controller: FeedRefreshViewController, title: String) -> FeedViewController {
-        let feedController = FeedViewController(refreshController: controller)
+        let bundle = Bundle(for: FeedViewController.self)
+        let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
+        let feedController = storyboard.instantiateInitialViewController() as! FeedViewController
+        feedController.refreshController = controller
         feedController.title = FeedPresenter.title
         return feedController
     }
