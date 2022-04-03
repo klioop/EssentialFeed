@@ -17,7 +17,6 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(FeedImageCell.self)
         refreshController?.refresh()
     }
     
