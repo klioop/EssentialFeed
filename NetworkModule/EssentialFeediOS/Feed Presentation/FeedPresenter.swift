@@ -43,7 +43,10 @@ final class FeedPresenter {
     }
     
     private var errorMessage: String {
-        "Can't connect the server"
+        NSLocalizedString("FEED_VIEW_CONNECTION_ERROR",
+                          tableName: "Feed",
+                          bundle: Bundle(for: FeedPresenter.self),
+                          comment: "Error message displayed on feed load error")
     }
     
     func didStartLoadingFeed() {
