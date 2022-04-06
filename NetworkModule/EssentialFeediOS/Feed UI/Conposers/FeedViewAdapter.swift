@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import NetworkModule
 
 // [FeedImage] -> Adapt -> [FeedImageCellController]
 final class FeedViewAdapter: FeedView {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import NetworkModule
 
 final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     @IBOutlet var refreshController: FeedRefreshViewController?
@@ -54,7 +55,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
 }
 
 extension FeedViewController: FeedErrorView {
-    func display(_ viewModel: FeedErrorViewModel) {
+    public func display(_ viewModel: FeedErrorViewModel) {
         if let message = viewModel.message {
             errorView?.show(message: message)
         } else {
