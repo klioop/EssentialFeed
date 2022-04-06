@@ -21,7 +21,8 @@ public final class FeedUIComposer {
             loadingView: WeakRefVirtualProxy(refreshController),
             feedView: FeedViewAdapter(
                 controller: feedController,
-                imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader))
+                imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader)),
+            errorView: WeakRefVirtualProxy(feedController)
         )
         return feedController
     }
@@ -31,6 +32,7 @@ public final class FeedUIComposer {
         let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
         let feedController = storyboard.instantiateInitialViewController() as! FeedViewController
         feedController.title = FeedPresenter.title
+        feedController.errorView = ErrorView()
         return feedController
     }
 }

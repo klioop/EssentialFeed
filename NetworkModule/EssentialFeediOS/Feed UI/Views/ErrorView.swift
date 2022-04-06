@@ -7,19 +7,19 @@
 
 import UIKit
 
-final class ErrorView: UIView {
-    let button: UIButton = {
+public final class ErrorView: UIView {
+    private let button: UIButton = {
         let button = UIButton()
         return button
     }()
     
     convenience init() {
-        self.init()
+        self.init(frame: .zero)
         addSubview(button)
         alpha = 0
     }
     
-    var message: String? {
+    public var message: String? {
         isVisible ? button.title(for: .normal) : nil
     }
     

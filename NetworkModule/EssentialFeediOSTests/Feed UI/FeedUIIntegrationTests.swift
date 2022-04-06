@@ -82,6 +82,19 @@ class FeedUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [image0])
     }
     
+    func test_loadFeedCompeltion_rendersErrorMessageOnErrorUnitlNextReload() {
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(sut.errorMessage, nil)
+        
+        loader.completeFeedLoadingWithError()
+        XCTAssertNotNil(sut.errorMessage)
+        
+        sut.simulateUserInitiatedFeedLoad()
+        XCTAssertEqual(sut.errorMessage, nil)
+    }
+    
     func test_feedImageView_loadsImageURLWhenVisible() {
         let image0 = makeImage(url: URL(string: "https://url-0.com")!)
         let image1 = makeImage(url: URL(string: "https://url-1.com")!)
@@ -306,3 +319,8 @@ class FeedUIIntegrationTests: XCTestCase {
     }
 }
 
+private extension FeedViewController {
+    var errorMessage: String? {
+        errorView?.message
+    }
+}
