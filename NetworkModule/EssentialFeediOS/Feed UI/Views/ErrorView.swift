@@ -8,8 +8,9 @@
 import UIKit
 
 public final class ErrorView: UIView {
-    private let button: UIButton = {
+    private(set) public lazy var button: UIButton = {
         let button = UIButton()
+        button.addTarget(self, action: #selector(hideMessage), for: .touchUpInside)
         return button
     }()
     
@@ -35,7 +36,7 @@ public final class ErrorView: UIView {
         }
     }
     
-    func hideMessage() {
+    @objc func hideMessage() {
         UIView.animate(withDuration: 0.25,
                        animations: { self.alpha = 0 } ,
                        completion: { completed in

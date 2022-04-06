@@ -86,13 +86,26 @@ class FeedUIIntegrationTests: XCTestCase {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
-        XCTAssertEqual(sut.errorMessage, nil)
+        XCTAssertEqual(sut.errorMessage, nil, "Expected no error message on view loaded")
         
         loader.completeFeedLoadingWithError()
-        XCTAssertEqual(sut.errorMessage, localized("FEED_VIEW_CONNECTION_ERROR"))
+        XCTAssertEqual(sut.errorMessage, localized("FEED_VIEW_CONNECTION_ERROR"), "Expected error message when feed load completes with error")
         
         sut.simulateUserInitiatedFeedLoad()
-        XCTAssertEqual(sut.errorMessage, nil)
+        XCTAssertEqual(sut.errorMessage, nil, "Expected no error message on feed reload")
+    }
+    
+    func test_errorView_hidesErrorMessageOnTap() {
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(sut.errorMessage, nil, "Expected no error message on view loaded")
+        
+        loader.completeFeedLoadingWithError()
+        XCTAssertEqual(sut.errorMessage, localized("FEED_VIEW_CONNECTION_ERROR"), "Expected error message when feed load completes with error")
+        
+        sut.simulateErrorMessageTapped()
+        XCTAssertEqual(sut.errorMessage, nil, "Expected no error message when the message is tapped")
     }
     
     func test_feedImageView_loadsImageURLWhenVisible() {
@@ -322,5 +335,9 @@ class FeedUIIntegrationTests: XCTestCase {
 private extension FeedViewController {
     var errorMessage: String? {
         errorView?.message
+    }
+    
+    func simulateErrorMessageTapped() {
+        errorView?.button.simulateTap()
     }
 }
