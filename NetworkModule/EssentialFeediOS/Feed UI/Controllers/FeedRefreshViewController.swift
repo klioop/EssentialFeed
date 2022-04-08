@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import NetworkModule
 
 protocol FeedRefreshViewControllerDelegate {
     func didRequestFeedRefesh()

@@ -18,10 +18,10 @@ public final class FeedUIComposer {
         refreshController.delegate = presentationAdapter
         
         presentationAdapter.presenter = FeedPresenter(
-            loadingView: WeakRefVirtualProxy(refreshController),
             feedView: FeedViewAdapter(
                 controller: feedController,
                 imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader)),
+            loadingView: WeakRefVirtualProxy(refreshController),            
             errorView: WeakRefVirtualProxy(feedController)
         )
         return feedController
