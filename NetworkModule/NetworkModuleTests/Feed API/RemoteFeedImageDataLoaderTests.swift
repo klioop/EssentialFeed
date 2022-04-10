@@ -22,8 +22,13 @@ class RemoteFeedImageDataLoader {
     func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) {
         client.get(from: url) { result in
             switch result {
-            case .success:
-                completion(.failure(Error.invalidData))
+            case let .success((data, response)):
+                if response.statusCode == 200, !data.isEmpty {
+                    completion(.success(data))
+                } else {
+                    completion(.failure(Error.invalidData))
+                }
+                
                 
             case let .failure(error):
                 completion(.failure(error))
@@ -95,6 +100,15 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         trackMemoryLeak(client, file: file, line: line)
         trackMemoryLeak(sut, file: file, line: line)
         return (sut, client)
+    }
+    
+    func test_loadImageDataFromURL_deliversReceivedNonEmptyDataOn200HTTPResponse() {
+        let (sut, client) = makeSUT()
+        let nonEmptyData = Data("non-empty data".utf8)
+        
+        expect(sut, toCompleteWith: .success(nonEmptyData), when: {
+            client.complete(withStatusCode: 200, data: nonEmptyData)
+        })
     }
     
     private func expect(_ sut: RemoteFeedImageDataLoader, toCompleteWith expectedResult: FeedImageDataLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
