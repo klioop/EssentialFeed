@@ -7,7 +7,6 @@
 
 import XCTest
 import NetworkModule
-@testable import EssentialFeediOS
 
 final class FeedLocalizationTests: XCTestCase {
     
