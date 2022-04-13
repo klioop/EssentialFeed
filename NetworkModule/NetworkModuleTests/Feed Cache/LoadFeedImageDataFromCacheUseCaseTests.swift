@@ -8,7 +8,7 @@
 import XCTest
 import NetworkModule
 
-class LocalFeedImageDataLoaderTests: XCTestCase {
+class LoadFeedImageDataFromCacheUseCaseTests: XCTestCase {
     
     func test_init_doesNotMessagesStoreUponCreation() {
         let (_, store) = makeSUT()
