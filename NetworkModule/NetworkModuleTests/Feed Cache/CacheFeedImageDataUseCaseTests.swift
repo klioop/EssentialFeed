@@ -38,9 +38,23 @@ class CacheFeedImageDataUseCaseTests: XCTestCase {
     func test_saveImageDataFromURL_succeedsOnSuccessfulStoreInsertion() {
         let (sut, store) = makeSUT()
         
-        expect(sut, toCompleteWith: .success(.none), when: {
+        expect(sut, toCompleteWith: .success(()), when: {
             store.completeInsertionSuccessfully()
         })
+    }
+    
+    func test_saveImageDataFromURL_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
+        let store = FeedImageDataStoreSpy()
+        var sut: LocalFeedImageDataLoader? = LocalFeedImageDataLoader(store: store)
+        
+        var receivedResult = [LocalFeedImageDataLoader.SaveResult]()
+        sut?.save(anyData(), for: anyURL()) { receivedResult.append($0) }
+        
+        sut = nil        
+        store.completeInsertion(with: anyNSError())
+        store.completeInsertionSuccessfully()
+        
+        XCTAssertTrue(receivedResult.isEmpty, "Expected no received results after instance has been deallocated")
     }
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedImageDataLoader, store: FeedImageDataStoreSpy) {
@@ -60,8 +74,8 @@ class CacheFeedImageDataUseCaseTests: XCTestCase {
         
         sut.save(anyData(), for: anyURL()) { receivedResult in
             switch (receivedResult, expectedResult) {
-            case let (.success(receivedData), .success(expectedData)):
-                XCTAssertEqual(receivedData, expectedData, file: file, line: line)
+            case (.success, .success):
+                break
                 
             case let (.failure(receivedError as LocalFeedImageDataLoader.SaveError), .failure(expectedError as LocalFeedImageDataLoader.SaveError)):
                 XCTAssertEqual(receivedError, expectedError, file: file, line: line)
