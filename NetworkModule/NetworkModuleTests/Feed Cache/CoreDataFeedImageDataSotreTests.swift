@@ -48,6 +48,28 @@ class CoreDataFeedImageDataStore: XCTestCase {
         expect(sut, toCompleteWith: found(lastStoredData), for: url)
     }
     
+    func test_sideEffects_runSerially() {
+        let sut = makeSUT()
+        let url = anyURL()
+        
+        let op1 = expectation(description: "Operation 1")
+        sut.insert([localImage(url: url)], timestamp: Date()) { _ in
+            op1.fulfill()
+        }
+        
+        let op2 = expectation(description: "Operation 2")
+        sut.insert(data: anyData(), for: url) { _ in
+            op2.fulfill()
+        }
+        
+        let op3 = expectation(description: "Operation 3")
+        sut.insert(data: anyData(), for: url) { _ in
+            op3.fulfill()
+        }
+        
+        wait(for: [op1, op2, op3,], timeout: 5.0, enforceOrder: true)
+    }
+    
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CoreDataFeedStore {
         let storeBundle = Bundle(for: CoreDataFeedStore.self)
         let storeURL = URL(fileURLWithPath: "/dev/null")
@@ -77,14 +99,16 @@ class CoreDataFeedImageDataStore: XCTestCase {
             case let .failure(error):
                 XCTFail("Faild to save \(image) with error \(error)", file: file, line: line)
                 
+                exp.fulfill()
+                
             case .success:
                 sut.insert(data: data, for: url) { result in
                     if case let Result.failure(error) = result {
                         XCTFail("Faild to insert \(data) with error \(error)", file: file, line: line)
                     }
+                    exp.fulfill()
                 }
             }
-            exp.fulfill()
         }
         
         wait(for: [exp], timeout: 1.0)
