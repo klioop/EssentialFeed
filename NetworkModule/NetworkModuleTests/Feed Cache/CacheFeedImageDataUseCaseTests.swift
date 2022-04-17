@@ -50,7 +50,7 @@ class CacheFeedImageDataUseCaseTests: XCTestCase {
         var receivedResult = [LocalFeedImageDataLoader.SaveResult]()
         sut?.save(anyData(), for: anyURL()) { receivedResult.append($0) }
         
-        sut = nil        
+        sut = nil
         store.completeInsertion(with: anyNSError())
         store.completeInsertionSuccessfully()
         
