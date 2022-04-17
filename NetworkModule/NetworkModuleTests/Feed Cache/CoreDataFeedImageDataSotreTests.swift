@@ -8,17 +8,6 @@
 import XCTest
 import NetworkModule
 
-extension CoreDataFeedStore: FeedImageDataStore {
-    
-    public func insert(data: Data, for url: URL, completion: @escaping (FeedImageDataStore.InsertionResult) -> Void) {
-        
-    }
-    
-    public func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.RetrievalResult) -> Void) {
-        completion(.success(.none))
-    }
-}
-
 class CoreDataFeedImageDataStore: XCTestCase {
     
     func test_retrieveImageData_deliversNotFoundWhenEmpty() {
