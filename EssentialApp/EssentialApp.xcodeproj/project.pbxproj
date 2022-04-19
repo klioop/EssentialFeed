@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3155DCEE280EF58100C286D5 /* EssentialFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3155DCEC280EF58100C286D5 /* EssentialFeediOS.framework */; };
+		3155DCEF280EF58100C286D5 /* EssentialFeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3155DCEC280EF58100C286D5 /* EssentialFeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3155DCF0280EF58100C286D5 /* NetworkModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3155DCED280EF58100C286D5 /* NetworkModule.framework */; };
+		3155DCF1280EF58100C286D5 /* NetworkModule.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3155DCED280EF58100C286D5 /* NetworkModule.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		31F0DFDC280EF266007F0A5D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0DFDB280EF266007F0A5D /* AppDelegate.swift */; };
 		31F0DFDE280EF266007F0A5D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0DFDD280EF266007F0A5D /* SceneDelegate.swift */; };
 		31F0DFE0280EF266007F0A5D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0DFDF280EF266007F0A5D /* ViewController.swift */; };
@@ -33,7 +37,24 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3155DCF2280EF58100C286D5 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3155DCEF280EF58100C286D5 /* EssentialFeediOS.framework in Embed Frameworks */,
+				3155DCF1280EF58100C286D5 /* NetworkModule.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		3155DCEC280EF58100C286D5 /* EssentialFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EssentialFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3155DCED280EF58100C286D5 /* NetworkModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NetworkModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		31F0DFD8280EF266007F0A5D /* EssentialApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssentialApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31F0DFDB280EF266007F0A5D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31F0DFDD280EF266007F0A5D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3155DCEE280EF58100C286D5 /* EssentialFeediOS.framework in Frameworks */,
+				3155DCF0280EF58100C286D5 /* NetworkModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +95,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3155DCEB280EF58100C286D5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3155DCEC280EF58100C286D5 /* EssentialFeediOS.framework */,
+				3155DCED280EF58100C286D5 /* NetworkModule.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		31F0DFCF280EF266007F0A5D = {
 			isa = PBXGroup;
 			children = (
 				31F0DFDA280EF266007F0A5D /* EssentialApp */,
 				31F0DFF1280EF268007F0A5D /* EssentialAppTests */,
 				31F0DFD9280EF266007F0A5D /* Products */,
+				3155DCEB280EF58100C286D5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -123,6 +156,7 @@
 				31F0DFD4280EF266007F0A5D /* Sources */,
 				31F0DFD5280EF266007F0A5D /* Frameworks */,
 				31F0DFD6280EF266007F0A5D /* Resources */,
+				3155DCF2280EF58100C286D5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
