@@ -17,7 +17,6 @@
 		31F0DFE3280EF266007F0A5D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31F0DFE1280EF266007F0A5D /* Main.storyboard */; };
 		31F0DFE5280EF268007F0A5D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31F0DFE4280EF268007F0A5D /* Assets.xcassets */; };
 		31F0DFE8280EF268007F0A5D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31F0DFE6280EF268007F0A5D /* LaunchScreen.storyboard */; };
-		31F0DFF3280EF268007F0A5D /* EssentialAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F0DFF2280EF268007F0A5D /* EssentialAppTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +63,6 @@
 		31F0DFE7280EF268007F0A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31F0DFE9280EF268007F0A5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		31F0DFEE280EF268007F0A5D /* EssentialAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		31F0DFF2280EF268007F0A5D /* EssentialAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialAppTests.swift; sourceTree = "<group>"; };
 		31F0DFF8280EF268007F0A5D /* EssentialAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -141,7 +139,6 @@
 		31F0DFF1280EF268007F0A5D /* EssentialAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				31F0DFF2280EF268007F0A5D /* EssentialAppTests.swift */,
 			);
 			path = EssentialAppTests;
 			sourceTree = "<group>";
@@ -288,7 +285,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31F0DFF3280EF268007F0A5D /* EssentialAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
