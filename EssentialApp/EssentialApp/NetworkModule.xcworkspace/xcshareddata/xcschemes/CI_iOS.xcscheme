@@ -17,7 +17,7 @@
                BlueprintIdentifier = "31004AB627B238FB0017F6A1"
                BuildableName = "NetworkModule.framework"
                BlueprintName = "NetworkModule"
-               ReferencedContainer = "container:NetworkModule.xcodeproj">
+               ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,14 +36,21 @@
             BlueprintIdentifier = "31004AB627B238FB0017F6A1"
             BuildableName = "NetworkModule.framework"
             BlueprintName = "NetworkModule"
-            ReferencedContainer = "container:NetworkModule.xcodeproj">
+            ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
          </BuildableReference>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "31CB19BD27D8DE3200EB1FD0"
             BuildableName = "EssentialFeediOS.framework"
             BlueprintName = "EssentialFeediOS"
-            ReferencedContainer = "container:NetworkModule.xcodeproj">
+            ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "31F0DFD7280EF266007F0A5D"
+            BuildableName = "EssentialApp.app"
+            BlueprintName = "EssentialApp"
+            ReferencedContainer = "container:../EssentialApp.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
@@ -55,7 +62,7 @@
                BlueprintIdentifier = "313D1A8527B9241100767A53"
                BuildableName = "NetworkModuleEndToEndTests.xctest"
                BlueprintName = "NetworkModuleEndToEndTests"
-               ReferencedContainer = "container:NetworkModule.xcodeproj">
+               ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -66,7 +73,7 @@
                BlueprintIdentifier = "31004ABE27B238FB0017F6A1"
                BuildableName = "NetworkModuleTests.xctest"
                BlueprintName = "NetworkModuleTests"
-               ReferencedContainer = "container:NetworkModule.xcodeproj">
+               ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -77,7 +84,7 @@
                BlueprintIdentifier = "31CB194727D4B01100EB1FD0"
                BuildableName = "NetworkModuleCacheIntegrationTests.xctest"
                BlueprintName = "NetworkModuleCacheIntegrationTests"
-               ReferencedContainer = "container:NetworkModule.xcodeproj">
+               ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -88,7 +95,18 @@
                BlueprintIdentifier = "31CB19C427D8DE3200EB1FD0"
                BuildableName = "EssentialFeediOSTests.xctest"
                BlueprintName = "EssentialFeediOSTests"
-               ReferencedContainer = "container:NetworkModule.xcodeproj">
+               ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "31F0DFED280EF268007F0A5D"
+               BuildableName = "EssentialAppTests.xctest"
+               BlueprintName = "EssentialAppTests"
+               ReferencedContainer = "container:../EssentialApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -116,7 +134,7 @@
             BlueprintIdentifier = "31004AB627B238FB0017F6A1"
             BuildableName = "NetworkModule.framework"
             BlueprintName = "NetworkModule"
-            ReferencedContainer = "container:NetworkModule.xcodeproj">
+            ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
