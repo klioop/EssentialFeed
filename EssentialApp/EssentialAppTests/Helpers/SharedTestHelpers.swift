@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import NetworkModule
 
 func anyNSError() -> NSError {
     NSError(domain: "any error", code: 0)
@@ -17,4 +18,9 @@ func anyData() -> Data {
 
 func anyURL() -> URL {
     URL(string: "https://a-url.com")!
+}
+
+
+func uniqueFeed() -> [FeedImage] {
+    [FeedImage(id: .init(), description: "any", location: "any", url: anyURL())]
 }
