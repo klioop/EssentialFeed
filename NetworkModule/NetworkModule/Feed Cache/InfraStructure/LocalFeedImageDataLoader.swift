@@ -60,6 +60,7 @@ extension LocalFeedImageDataLoader: FeedImageDataLoader {
             completion = nil
         }
     }
+    
     public func loadImageData(from url: URL, completion: @escaping (LoadResult) -> Void) -> FeedImageDataLoaderTask {
         let task = LoadImageDataTask(completion)
         store.retrieve(dataForURL: url) { [weak self] result in
