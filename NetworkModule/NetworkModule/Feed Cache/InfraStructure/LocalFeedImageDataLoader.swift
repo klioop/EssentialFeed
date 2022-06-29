@@ -16,8 +16,8 @@ public final class LocalFeedImageDataLoader {
     }
 }
 
-extension LocalFeedImageDataLoader {
-    public typealias SaveResult = Result<Void, Error>
+extension LocalFeedImageDataLoader: FeedImageDataCache {
+    public typealias SaveResult = FeedImageDataCache.Result
     
     public enum SaveError: Error {
         case failed
@@ -60,6 +60,7 @@ extension LocalFeedImageDataLoader: FeedImageDataLoader {
             completion = nil
         }
     }
+    
     public func loadImageData(from url: URL, completion: @escaping (LoadResult) -> Void) -> FeedImageDataLoaderTask {
         let task = LoadImageDataTask(completion)
         store.retrieve(dataForURL: url) { [weak self] result in
