@@ -6,6 +6,7 @@
 //
 
 import NetworkModule
+import EssentialFeediOS
 
 final class FeedImageLoaderPresentationAdapter<View: FeedImageView, Image>: FeedImageCellControllerDelegate where View.Image == Image {
     private var task: FeedImageDataLoaderTask?

@@ -8,17 +8,17 @@
 import UIKit
 import NetworkModule
 
-protocol FeedImageCellControllerDelegate {
+public protocol FeedImageCellControllerDelegate {
     func didRequestFeedImage()
     func didRequestCancelLoadingImage()
 }
 
-final class FeedImageCellController: FeedImageView {
+public final class FeedImageCellController: FeedImageView {
     private var cell: FeedImageCell?
     
     private let delegate: FeedImageCellControllerDelegate
     
-    init(delegate: FeedImageCellControllerDelegate) {
+    public init(delegate: FeedImageCellControllerDelegate) {
         self.delegate = delegate
     }
     
@@ -28,7 +28,7 @@ final class FeedImageCellController: FeedImageView {
         return cell!
     }
     
-    func display(_ model: FeedImageViewModel<UIImage>) {
+    public func display(_ model: FeedImageViewModel<UIImage>) {
         cell?.descriptionLabel.text = model.description
         cell?.locationContainer.isHidden = !model.hasLocation
         cell?.locationLabel.text = model.location

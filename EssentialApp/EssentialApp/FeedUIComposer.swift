@@ -7,6 +7,7 @@
 
 import UIKit
 import NetworkModule
+import EssentialFeediOS
 
 public final class FeedUIComposer {
     private init() {}
