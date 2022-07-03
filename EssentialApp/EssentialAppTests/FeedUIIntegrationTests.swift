@@ -9,6 +9,7 @@ import XCTest
 import UIKit
 import NetworkModule
 import EssentialFeediOS
+import EssentialApp
 
 class FeedUIIntegrationTests: XCTestCase {
     

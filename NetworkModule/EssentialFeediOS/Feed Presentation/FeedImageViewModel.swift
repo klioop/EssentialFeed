@@ -7,12 +7,20 @@
 
 import Foundation
 
-struct FeedImageViewModel<Image> {
-    let description: String?
-    let location: String?
-    let isLoading: Bool
-    let shouldRetry: Bool
-    let image: Image?
+public struct FeedImageViewModel<Image> {
+    public let description: String?
+    public let location: String?
+    public let isLoading: Bool
+    public let shouldRetry: Bool
+    public let image: Image?
+    
+    public init(description: String?, location: String?, isLoading: Bool, shouldRetry: Bool, image: Image?) {
+        self.description = description
+        self.location = location
+        self.isLoading = isLoading
+        self.shouldRetry = shouldRetry
+        self.image = image
+    }
     
     var hasLocation: Bool {
         location != nil

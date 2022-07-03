@@ -8,11 +8,11 @@
 import UIKit
 import NetworkModule
 
-final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    @IBOutlet var refreshController: FeedRefreshViewController?
+public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
+    @IBOutlet public var refreshController: FeedRefreshViewController?
     public var errorView: ErrorView?
     
-    var tableModel = [FeedImageCellController]() {
+    private var tableModel = [FeedImageCellController]() {
         didSet { tableView.reloadData() }
     }
     
@@ -21,6 +21,10 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
         
         tableView.tableHeaderView = errorView
         refreshController?.refresh()
+    }
+    
+    public func display(_ controllers: [FeedImageCellController]) {
+        tableModel = controllers
     }
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
