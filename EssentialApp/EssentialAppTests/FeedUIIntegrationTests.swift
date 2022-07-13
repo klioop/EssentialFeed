@@ -47,7 +47,7 @@ class FeedUIIntegrationTests: XCTestCase {
         sut.simulateUserInitiatedFeedLoad()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a reload")
         
-        loader.completeFeedLoadingWithError()
+        loader.completeFeedLoadingWithError(at: 1)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading completes with error")
     }
     
@@ -66,7 +66,7 @@ class FeedUIIntegrationTests: XCTestCase {
         
         sut.simulateUserInitiatedFeedLoad()
         let feed = [image0, image1, image2, image3]
-        loader.completeFeedLoading(with: feed, at: 0)
+        loader.completeFeedLoading(with: feed, at: 1)
         assertThat(sut, isRendering: feed)
     }
     
@@ -80,7 +80,7 @@ class FeedUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [image0, image1])
         
         sut.simulateUserInitiatedFeedLoad()
-        loader.completeFeedLoading(with: [])
+        loader.completeFeedLoading(with: [], at: 1)
         assertThat(sut, isRendering: [])
     }
     
@@ -332,7 +332,7 @@ class FeedUIIntegrationTests: XCTestCase {
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: FeedViewController, loader: FeedLoaderSpy) {
         let loader = FeedLoaderSpy()
-        let sut = FeedUIComposer.feedComposedWith(feedLoader: loader, imageLoader: loader)
+        let sut = FeedUIComposer.feedComposedWith(feedLoader: loader.loadPublisher, imageLoader: loader.loadImageDataPublisher)
         trackMemoryLeak(loader, file: file, line: line)
         trackMemoryLeak(sut, file: file, line: line)
         return (sut, loader)
