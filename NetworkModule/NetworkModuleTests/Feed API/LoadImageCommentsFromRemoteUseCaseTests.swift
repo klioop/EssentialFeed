@@ -90,15 +90,15 @@ class LoadImageCommentsFromRemoteUseCaseTests: XCTestCase {
         
         let item1 = makeItem(
             id: UUID(),
-            imageURL: URL(string:"https://a-url.com")!
-        )
+            message: "a message",
+            createdAt: (Date(timeIntervalSince1970: 1598627222), "2020-08-28T15:07:02Z"),
+            username: "a username")
 
         let item2 = makeItem(
             id: UUID(),
-            description: "a description",
-            location: "a location",
-            imageURL: URL(string:"https://b-url.com")!
-        )
+            message: "another message",
+            createdAt: (Date(timeIntervalSince1970: 1598627222), "2020-08-28T15:07:02Z"),
+            username: "another username")
         let items = [item1.model, item2.model]
         
         let samples = [200, 201, 250, 280, 299]
@@ -145,17 +145,20 @@ class LoadImageCommentsFromRemoteUseCaseTests: XCTestCase {
     
     private func makeItem(
         id: UUID,
-        description: String? = nil,
-        location: String? = nil,
-        imageURL: URL
-    ) -> (model: FeedImage, json: [String: Any]) {
-        let item = FeedImage(id: id, description: description, location: location, url: imageURL)
+        message: String,
+        createdAt: (date: Date, isoString: String),
+        username: String
+    ) -> (model: ImageComment, json: [String: Any]) {
+        let item = ImageComment(id: id, message: message, createdAt: createdAt.date, username: username)
+        
         let json: [String: Any] = [
             "id": id.uuidString,
-            "description": description,
-            "location": location,
-            "image": imageURL.absoluteString
-        ].compactMapValues { $0 }
+            "message": message,
+            "created_at": createdAt.isoString,
+            "author": [
+                "username": username
+            ]
+        ]
         
         return (item, json)
     }
