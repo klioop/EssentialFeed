@@ -67,6 +67,9 @@
 		31CB19DD27DCD7BB00EB1FD0 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB19DC27DCD7BB00EB1FD0 /* FeedViewController.swift */; };
 		31CB19DF27DDDEEB00EB1FD0 /* FeedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB19DE27DDDEEB00EB1FD0 /* FeedImageCell.swift */; };
 		31CB19E127DDFC9100EB1FD0 /* UIView+Shimmering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CB19E027DDFC9100EB1FD0 /* UIView+Shimmering.swift */; };
+		31DADA1B2880021F00E33692 /* LoadImageCommentsFromRemoteUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DADA1A2880021F00E33692 /* LoadImageCommentsFromRemoteUseCaseTests.swift */; };
+		31DADA1F288006CF00E33692 /* RemoteImageCommentsLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DADA1C2880055F00E33692 /* RemoteImageCommentsLoader.swift */; };
+		31DADA21288008E100E33692 /* ImageCommentsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31DADA20288008E100E33692 /* ImageCommentsMapper.swift */; };
 		31E72C6327C136B600E9C758 /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E72C6227C136B600E9C758 /* CacheFeedUseCaseTests.swift */; };
 		31E72C6627C3AC4400E9C758 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E72C6527C3AC4400E9C758 /* LocalFeedLoader.swift */; };
 		31E72C6827C3ACC600E9C758 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E72C6727C3ACC600E9C758 /* FeedStore.swift */; };
@@ -197,6 +200,9 @@
 		31CB19DC27DCD7BB00EB1FD0 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		31CB19DE27DDDEEB00EB1FD0 /* FeedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCell.swift; sourceTree = "<group>"; };
 		31CB19E027DDFC9100EB1FD0 /* UIView+Shimmering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shimmering.swift"; sourceTree = "<group>"; };
+		31DADA1A2880021F00E33692 /* LoadImageCommentsFromRemoteUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadImageCommentsFromRemoteUseCaseTests.swift; sourceTree = "<group>"; };
+		31DADA1C2880055F00E33692 /* RemoteImageCommentsLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageCommentsLoader.swift; sourceTree = "<group>"; };
+		31DADA20288008E100E33692 /* ImageCommentsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentsMapper.swift; sourceTree = "<group>"; };
 		31E72C6227C136B600E9C758 /* CacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheFeedUseCaseTests.swift; sourceTree = "<group>"; };
 		31E72C6527C3AC4400E9C758 /* LocalFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedLoader.swift; sourceTree = "<group>"; };
 		31E72C6727C3ACC600E9C758 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
@@ -344,6 +350,8 @@
 				313D1A8027B8F48B00767A53 /* URLSessionHTTPClient.swift */,
 				31E72C6A27C3D96400E9C758 /* RemoteFeedItem.swift */,
 				31A119D02802F3F100579C10 /* RemoteFeedImageDataLoader.swift */,
+				31DADA1C2880055F00E33692 /* RemoteImageCommentsLoader.swift */,
+				31DADA20288008E100E33692 /* ImageCommentsMapper.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -355,6 +363,7 @@
 				31004AD427B2397D0017F6A1 /* LoadFeedFromRemoteUseCaseTests.swift */,
 				313D1A7B27B7921900767A53 /* URLSessionHTTPClientTest.swift */,
 				31A119CB2802B14E00579C10 /* LoadFeedImageDataFromRemoteUseCaseTests.swift */,
+				31DADA1A2880021F00E33692 /* LoadImageCommentsFromRemoteUseCaseTests.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -813,6 +822,7 @@
 			files = (
 				31A119DE2805BDD600579C10 /* LocalFeedImageDataLoader.swift in Sources */,
 				31A119C427FDAC4900579C10 /* FeedViewModel.swift in Sources */,
+				31DADA21288008E100E33692 /* ImageCommentsMapper.swift in Sources */,
 				31CB193F27D38C1700EB1FD0 /* CoreDataHelpers.swift in Sources */,
 				31004AD327B239520017F6A1 /* FeedItem.swift in Sources */,
 				31A119C827FDACBE00579C10 /* FeedErrorViewModel.swift in Sources */,
@@ -835,6 +845,7 @@
 				31004AD127B239130017F6A1 /* FeedLoader.swift in Sources */,
 				3155DD11281C25D300C286D5 /* FeedImageDataCache.swift in Sources */,
 				31A119D12802F3F100579C10 /* RemoteFeedImageDataLoader.swift in Sources */,
+				31DADA1F288006CF00E33692 /* RemoteImageCommentsLoader.swift in Sources */,
 				313D1A8127B8F48B00767A53 /* URLSessionHTTPClient.swift in Sources */,
 				31A119DC2805BDB900579C10 /* FeedImageDataStore.swift in Sources */,
 				31CB194127D38C7B00EB1FD0 /* ManagedCache.swift in Sources */,
@@ -859,6 +870,7 @@
 				31A119B827FD9A5B00579C10 /* FeedPresenterTests.swift in Sources */,
 				31004AD527B2397D0017F6A1 /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
 				31A119CC2802B14E00579C10 /* LoadFeedImageDataFromRemoteUseCaseTests.swift in Sources */,
+				31DADA1B2880021F00E33692 /* LoadImageCommentsFromRemoteUseCaseTests.swift in Sources */,
 				31E72C7227C50D7A00E9C758 /* FeedStoreSpy.swift in Sources */,
 				31E72C7627C7A6B600E9C758 /* FeedCacheTestHelpers.swift in Sources */,
 				31A119C927FDAE9600579C10 /* FeedLocalizationTests.swift in Sources */,
@@ -996,6 +1008,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1061,6 +1074,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
