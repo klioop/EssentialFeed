@@ -9,7 +9,6 @@ import Foundation
 
 public final class RemoteImageCommentsLoader {
     
-    // url is the detail of the implementation of RemoteFeedLoader. It should not be in the public interface
     private let url: URL
     private let client: HTTPClient
     
@@ -25,7 +24,6 @@ public final class RemoteImageCommentsLoader {
         self.client = client
     }
     
-    // RemoteFeedLoader is mapping a client error to the domain error which is the connectivity
     public func load(completion: @escaping (RemoteImageCommentsLoader.Result) -> Void) {
         client.get(from: url) { [weak self] (result) in
             guard self != nil else { return }
@@ -44,7 +42,7 @@ public final class RemoteImageCommentsLoader {
             let comments = try ImageCommentsMapper.map(data, from: response)
             return .success(comments)
         } catch {
-            return .failure(Error.invalidData)
+            return .failure(error)
         }
     }
 }
