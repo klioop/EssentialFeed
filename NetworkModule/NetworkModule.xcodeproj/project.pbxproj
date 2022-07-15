@@ -313,6 +313,7 @@
 				31DADA252881606400E33692 /* Shared API */,
 				31DADA262881606A00E33692 /* Shared API Infra */,
 				31DADA22288018D000E33692 /* Image Comments Feature */,
+				31DADA2A2881614D00E33692 /* Image Comment API */,
 				31E72C6427C3AC3400E9C758 /* Feed Cache */,
 				31004AD627B24E810017F6A1 /* Feed API */,
 				31004ACF27B239090017F6A1 /* Feed Feature */,
@@ -331,6 +332,7 @@
 				313D1A7D27B8CD9A00767A53 /* Helpers */,
 				31E72C6127C1362800E9C758 /* Feed Cache */,
 				31004ADD27B551CB0017F6A1 /* Feed API */,
+				31DADA2B2881616500E33692 /* Image Comment API */,
 			);
 			path = NetworkModuleTests;
 			sourceTree = "<group>";
@@ -355,8 +357,6 @@
 				31004ADB27B542FA0017F6A1 /* FeedItemMapper.swift */,
 				31E72C6A27C3D96400E9C758 /* RemoteFeedItem.swift */,
 				31A119D02802F3F100579C10 /* RemoteFeedImageDataLoader.swift */,
-				31DADA1C2880055F00E33692 /* RemoteImageCommentsLoader.swift */,
-				31DADA20288008E100E33692 /* ImageCommentsMapper.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -366,7 +366,6 @@
 			children = (
 				31004AD427B2397D0017F6A1 /* LoadFeedFromRemoteUseCaseTests.swift */,
 				31A119CB2802B14E00579C10 /* LoadFeedImageDataFromRemoteUseCaseTests.swift */,
-				31DADA1A2880021F00E33692 /* LoadImageCommentsFromRemoteUseCaseTests.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -577,6 +576,23 @@
 				31A119CE2802F38C00579C10 /* HTTPClientSpy.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		31DADA2A2881614D00E33692 /* Image Comment API */ = {
+			isa = PBXGroup;
+			children = (
+				31DADA1C2880055F00E33692 /* RemoteImageCommentsLoader.swift */,
+				31DADA20288008E100E33692 /* ImageCommentsMapper.swift */,
+			);
+			path = "Image Comment API";
+			sourceTree = "<group>";
+		};
+		31DADA2B2881616500E33692 /* Image Comment API */ = {
+			isa = PBXGroup;
+			children = (
+				31DADA1A2880021F00E33692 /* LoadImageCommentsFromRemoteUseCaseTests.swift */,
+			);
+			path = "Image Comment API";
 			sourceTree = "<group>";
 		};
 		31E72C6127C1362800E9C758 /* Feed Cache */ = {
