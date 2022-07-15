@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public final class RemoteFeedLoader: FeedLoader {
     
     // url is the detail of the implementation of RemoteFeedLoader. It should not be in the public interface
@@ -43,19 +42,9 @@ public final class RemoteFeedLoader: FeedLoader {
     private static func map(_ data: Data, from response: HTTPURLResponse) -> Result {
         do {
             let feedItems = try FeedItemMapper.map(data, from: response)
-            return .success(feedItems.toModels())
+            return .success(feedItems)
         } catch {
-            return .failure(RemoteFeedLoader.Error.invalidData)
+            return .failure(error)
         }
     }
 }
-
-private extension Array where Element == RemoteFeedItem {
-    
-    func toModels() -> [FeedImage] {
-        return map { FeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.image) }
-    }
-}
-
-
-
