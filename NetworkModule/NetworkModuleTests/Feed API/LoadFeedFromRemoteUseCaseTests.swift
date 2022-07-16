@@ -12,45 +12,6 @@ import NetworkModule
 
 class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     
-    func test_init_doesNotRequestDataFromURL() {
-        let (_, client) = makeSUT()
-        
-        XCTAssertTrue(client.requestedURLs.isEmpty)
-    }
-
-    func test_sut_load_requestsDataFromURL() {
-        let url = URL(string: "https://thisisurl")!
-        let (sut, client) = makeSUT(url: url)
-        
-        sut.load { _ in }
- 
-        XCTAssertEqual(client.requestedURLs, [url])
-    }
-    
-    func test_load_twice_requestsDataFromURLTwice() {
-        let url = URL(string: "https://thisisurl")!
-        let (sut, client) = makeSUT(url: url)
-        
-        sut.load { _ in }
-        sut.load { _ in }
- 
-        XCTAssertEqual(client.requestedURLs, [url, url])
-    }
-    
-    func test_load_deliversErrorOnClientError() {
-        let (sut, client) = makeSUT()
-        
-        expect(
-            sut,
-            toCompleteWith: failure(.conectivity),
-            when: {
-                let clientError = NSError(domain: "Test", code: 0)
-                // completion happens after the load was invoked - important!
-                client.complete(with: clientError) // 2 load 의 completion 을 실행
-            }
-        )
-    }
-    
     func test_load_deliversErrorOnNon200HttpResponse() {
         let (sut, client) = makeSUT()
         
@@ -101,20 +62,6 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
             let json = makeItemJSON([item1.json, item2.json])
             client.complete(withStatusCode: 200, data: json)
         })
-    }
-    
-    func test_load_doesNotDeliverAfterSUTInstanceHasBeenDeallocated() {
-        let url = URL(string: "https://any-url.com")!
-        let client = HTTPClientSpy()
-        var sut: RemoteFeedLoader? = RemoteFeedLoader(url: url, client: client)
-        
-        var capturedResults = [RemoteFeedLoader.Result]()
-        sut?.load(completion: { capturedResults.append($0) })
-        
-        sut = nil
-        client.complete(withStatusCode: 200, data: makeItemJSON([]))
-        
-        XCTAssertTrue(capturedResults.isEmpty)
     }
     
     // MARK: - Helpers
