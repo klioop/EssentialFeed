@@ -45,7 +45,7 @@ class NetworkModuleEndToEndTests: XCTestCase {
     }
     
     private func getFeedResult(file: StaticString = #filePath, line: UInt = #line) -> FeedLoader.Result? {
-        let loader = RemoteFeedLoader(url: feedTestServerURL, client: ephemeralClient())
+        let loader = RemoteLoader(url: feedTestServerURL, client: ephemeralClient(), mapper: FeedItemMapper.map)
         trackMemoryLeak(loader, file: file, line: line)
         
         let exp = expectation(description: "Wait for completion")
