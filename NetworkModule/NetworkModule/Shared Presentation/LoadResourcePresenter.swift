@@ -25,13 +25,6 @@ public final class LoadResourcePresenter {
                           comment: "Error message displayed when we can't load feed from the server")
     }
     
-    public static var title: String {
-        NSLocalizedString("FEED_VIEW_TITLE",
-                          tableName: "Feed",
-                          bundle: Bundle(for: FeedPresenter.self),
-                          comment: "Title for the feed view")
-    }
-    
     public func didStartLoadingFeed() {
         errorView.display(.noError)
         loadingView.display(.init(isLoading: true))

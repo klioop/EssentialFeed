@@ -10,10 +10,6 @@ import NetworkModule
 
 class LoadResourcePresenterTests: XCTestCase {
     
-    func test_title_isLocalized() {
-        XCTAssertEqual(LoadResourcePresenter.title, localized("FEED_VIEW_TITLE"))
-    }
-    
     func test_init_doesNotSendMessage() {
         let (_, view) = makeSUT()
         
