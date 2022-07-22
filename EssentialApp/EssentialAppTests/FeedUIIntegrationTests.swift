@@ -104,7 +104,7 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.errorMessage, nil, "Expected no error message on view loaded")
         
         loader.completeFeedLoadingWithError()
-        XCTAssertEqual(sut.errorMessage, localized("FEED_VIEW_CONNECTION_ERROR"), "Expected error message when feed load completes with error")
+        XCTAssertEqual(sut.errorMessage, localized("GENERIC_CONNECTION_ERROR"), "Expected error message when feed load completes with error")
         
         sut.simulateUserInitiatedFeedLoad()
         XCTAssertEqual(sut.errorMessage, nil, "Expected no error message on feed reload")
@@ -117,7 +117,7 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.errorMessage, nil, "Expected no error message on view loaded")
         
         loader.completeFeedLoadingWithError()
-        XCTAssertEqual(sut.errorMessage, localized("FEED_VIEW_CONNECTION_ERROR"), "Expected error message when feed load completes with error")
+        XCTAssertEqual(sut.errorMessage, localized("GENERIC_CONNECTION_ERROR"), "Expected error message when feed load completes with error")
         
         sut.simulateErrorMessageTapped()
         XCTAssertEqual(sut.errorMessage, nil, "Expected no error message when the message is tapped")
