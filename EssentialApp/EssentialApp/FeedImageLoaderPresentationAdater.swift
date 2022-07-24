@@ -43,5 +43,4 @@ final class FeedImageLoaderPresentationAdapter<View: FeedImageView, Image>: Feed
     func didRequestCancelLoadingImage() {
         cancellable?.cancel()
     }
-    
 }
