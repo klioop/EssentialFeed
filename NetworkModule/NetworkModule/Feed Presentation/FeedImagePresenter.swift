@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import NetworkModule
 
 public protocol FeedImageView {
     associatedtype Image

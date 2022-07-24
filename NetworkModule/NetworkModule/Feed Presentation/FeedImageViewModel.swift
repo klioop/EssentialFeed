@@ -22,7 +22,7 @@ public struct FeedImageViewModel<Image> {
         self.image = image
     }
     
-    var hasLocation: Bool {
+    public var hasLocation: Bool {
         location != nil
     }
 }
