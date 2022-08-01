@@ -20,7 +20,7 @@ public final class FeedUIComposer {
             loader: { feedLoader().dispatchOnMainQueue() })
         let feedController = makeFeedViewController(title: FeedPresenter.title)
         let refreshController = feedController.refreshController!
-        refreshController.delegate = presentationAdapter
+            refreshController.onRefresh = presentationAdapter.loadResource
         
         presentationAdapter.presenter = LoadResourcePresenter(
             resourceView: FeedViewAdapter(
