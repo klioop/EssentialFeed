@@ -110,7 +110,7 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.errorMessage, nil, "Expected no error message on feed reload")
     }
     
-    func test_errorView_hidesErrorMessageOnTap() {
+    func test_tapOnErrorView_hidesErrorMessage() {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
@@ -349,10 +349,10 @@ class FeedUIIntegrationTests: XCTestCase {
 
 private extension ListViewController {
     var errorMessage: String? {
-        errorView?.message
+        errorView.message
     }
     
     func simulateErrorMessageTapped() {
-        errorView?.button.simulateTap()
+        errorView.simulateTap()
     }
 }

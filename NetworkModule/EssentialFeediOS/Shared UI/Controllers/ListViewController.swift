@@ -10,7 +10,7 @@ import NetworkModule
 
 public final class ListViewController: UITableViewController, UITableViewDataSourcePrefetching {
     @IBOutlet public var refreshController: FeedRefreshViewController?
-    public var errorView: ErrorView?
+    private(set) public var errorView = ErrorView()
     
     private var loadingControllers = [IndexPath: CellController]()
     
@@ -21,8 +21,29 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.tableHeaderView = errorView
+        configureErrorView()
         refreshController?.refresh()
+    }
+    
+    private func configureErrorView() {
+        let container = UIView()
+        container.backgroundColor = .clear
+        container.addSubview(errorView)
+        
+        errorView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            errorView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            container.trailingAnchor.constraint(equalTo: errorView.trailingAnchor),
+            errorView.topAnchor.constraint(equalTo: container.topAnchor),
+            container.bottomAnchor.constraint(equalTo: errorView.bottomAnchor),
+        ])
+        tableView.tableHeaderView = container
+        
+        errorView.onHide = { [weak self] in
+            self?.tableView.beginUpdates()
+            self?.tableView.sizeTableHaderToFit()
+            self?.tableView.endUpdates()
+        }
     }
     
     public func display(_ controllers: [CellController]) {
@@ -73,10 +94,6 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
 
 extension ListViewController: ResourceErrorView {
     public func display(_ viewModel: ResourceErrorViewModel) {
-        if let message = viewModel.message {
-            errorView?.show(message: message)
-        } else {
-            errorView?.hideMessage()
-        }
+        errorView.message = viewModel.message
     }
 }
