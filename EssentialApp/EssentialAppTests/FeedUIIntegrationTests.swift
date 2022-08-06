@@ -353,6 +353,6 @@ private extension ListViewController {
     }
     
     func simulateErrorMessageTapped() {
-        errorView.simulateTap()
+        errorView.button.simulateTap()
     }
 }
