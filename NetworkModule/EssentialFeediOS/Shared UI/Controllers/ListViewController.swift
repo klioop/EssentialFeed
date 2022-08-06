@@ -12,7 +12,11 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     @IBOutlet public var refreshController: FeedRefreshViewController?
     private(set) public var errorView = ErrorView()
     
-    private lazy var dataSource: UITableViewDiffableDataSource<Int, CellController> = {
+    private enum Section: Int {
+        case main
+    }
+    
+    private lazy var dataSource: UITableViewDiffableDataSource<Section, CellController> = {
         .init(tableView: tableView) { tableView, index, controller in
             controller.dataSource.tableView(tableView, cellForRowAt: index)
         }
@@ -61,9 +65,9 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     }
     
     public func display(_ controllers: [CellController]) {
-        var snapShot = NSDiffableDataSourceSnapshot<Int, CellController>()
-        snapShot.appendSections([0])
-        snapShot.appendItems(controllers, toSection: 0)
+        var snapShot = NSDiffableDataSourceSnapshot<Section, CellController>()
+        snapShot.appendSections([.main])
+        snapShot.appendItems(controllers, toSection: .main)
         dataSource.apply(snapShot)
     }
     
