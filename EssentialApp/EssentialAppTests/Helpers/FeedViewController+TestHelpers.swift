@@ -15,6 +15,14 @@ extension ListViewController {
         tableView.frame = .init(x: 0, y: 0, width: 1, height: 1)
     }
     
+    var errorMessage: String? {
+        errorView.message
+    }
+    
+    func simulateErrorMessageTapped() {
+        errorView.button.simulateTap()
+    }
+    
     func simulateUserInitiatedFeedLoad() {
         refreshControl?.simulatePullToRefresh()
     }

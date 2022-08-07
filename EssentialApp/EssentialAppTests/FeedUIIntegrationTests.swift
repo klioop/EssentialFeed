@@ -346,13 +346,3 @@ class FeedUIIntegrationTests: XCTestCase {
         UIImage.make(withColor: .red).pngData()!
     }
 }
-
-private extension ListViewController {
-    var errorMessage: String? {
-        errorView.message
-    }
-    
-    func simulateErrorMessageTapped() {
-        errorView.button.simulateTap()
-    }
-}
