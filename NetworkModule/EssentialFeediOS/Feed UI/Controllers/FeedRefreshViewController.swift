@@ -8,17 +8,13 @@
 import UIKit
 import NetworkModule
 
-public protocol FeedRefreshViewControllerDelegate {
-    func didRequestFeedRefesh()
-}
-
 public final class FeedRefreshViewController: NSObject, ResourceLoadingView {
     @IBOutlet private var view: UIRefreshControl?
     
-    public var delegate: FeedRefreshViewControllerDelegate?
+    public var onRefresh: (() -> Void)?
     
     @IBAction func refresh() {
-        delegate?.didRequestFeedRefesh()
+        onRefresh?()
     }
     
     public func display(_ viewModel: ResourceLoadingViewModel) {

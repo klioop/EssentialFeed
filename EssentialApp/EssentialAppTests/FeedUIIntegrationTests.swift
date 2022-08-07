@@ -110,7 +110,7 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.errorMessage, nil, "Expected no error message on feed reload")
     }
     
-    func test_errorView_hidesErrorMessageOnTap() {
+    func test_tapOnErrorView_hidesErrorMessage() {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
@@ -330,7 +330,7 @@ class FeedUIIntegrationTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: FeedViewController, loader: FeedLoaderSpy) {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: ListViewController, loader: FeedLoaderSpy) {
         let loader = FeedLoaderSpy()
         let sut = FeedUIComposer.feedComposedWith(feedLoader: loader.loadPublisher, imageLoader: loader.loadImageDataPublisher)
         trackMemoryLeak(loader, file: file, line: line)
@@ -347,12 +347,12 @@ class FeedUIIntegrationTests: XCTestCase {
     }
 }
 
-private extension FeedViewController {
+private extension ListViewController {
     var errorMessage: String? {
-        errorView?.message
+        errorView.message
     }
     
     func simulateErrorMessageTapped() {
-        errorView?.button.simulateTap()
+        errorView.button.simulateTap()
     }
 }
