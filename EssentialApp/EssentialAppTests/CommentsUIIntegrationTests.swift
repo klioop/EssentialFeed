@@ -7,6 +7,7 @@
 
 import XCTest
 import UIKit
+import Combine
 import NetworkModule
 import EssentialFeediOS
 import EssentialApp
@@ -21,18 +22,18 @@ class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         XCTAssertEqual(sut.title, commentsTitle)
     }
     
-    override func test_loadFeedActions_requestFeedFromLoader() {
+    func test_loadCommentsActions_requestFeedFromLoader() {
         let (sut, loader) = makeSUT()
-        XCTAssertEqual(loader.loadFeedCallCount, 0, "Expected no loading requests before view is loades")
+        XCTAssertEqual(loader.loadCommentsCallCount, 0, "Expected no loading requests before view is loades")
         
         sut.loadViewIfNeeded()
-        XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view is loaded")
+        XCTAssertEqual(loader.loadCommentsCallCount, 1, "Expected a loading request once view is loaded")
         
-        sut.simulateUserInitiatedFeedLoad()
-        XCTAssertEqual(loader.loadFeedCallCount, 2,  "Expected another loading request once user initiates a load")
+        sut.simulateUserInitiateReLoad()
+        XCTAssertEqual(loader.loadCommentsCallCount, 2,  "Expected another loading request once user initiates a load")
         
-        sut.simulateUserInitiatedFeedLoad()
-        XCTAssertEqual(loader.loadFeedCallCount, 3, "Expected a third loading request once user initiates another load")
+        sut.simulateUserInitiateReLoad()
+        XCTAssertEqual(loader.loadCommentsCallCount, 3, "Expected a third loading request once user initiates another load")
     }
     
     override func test_loadingFeedIndicator_isVisibleWhileLoadingFeed() {
@@ -44,7 +45,7 @@ class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         loader.completeFeedLoading()
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading completes successfully")
                         
-        sut.simulateUserInitiatedFeedLoad()
+        sut.simulateUserInitiateReLoad()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a reload")
         
         loader.completeFeedLoadingWithError(at: 1)
@@ -60,7 +61,7 @@ class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         loader.completeFeedLoadingWithError()
         XCTAssertEqual(sut.errorMessage, loadError)
         
-        sut.simulateUserInitiatedFeedLoad()
+        sut.simulateUserInitiateReLoad()
         XCTAssertEqual(sut.errorMessage, nil, "Expected no error message on feed reload")
     }
     
@@ -79,11 +80,34 @@ class CommentsUIIntegrationTests: FeedUIIntegrationTests {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: ListViewController, loader: FeedLoaderSpy) {
-        let loader = FeedLoaderSpy()
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: ListViewController, loader: LoaderSpy) {
+        let loader = LoaderSpy()
         let sut = CommentsUIComposer.commentsComposedWith(commentsLoader: loader.loadPublisher)
         trackMemoryLeak(loader, file: file, line: line)
         trackMemoryLeak(sut, file: file, line: line)
         return (sut, loader)
+    }
+    
+    private class LoaderSpy {
+        private(set) var requests = [PassthroughSubject<[FeedImage], Error>]()
+                        
+        var loadCommentsCallCount: Int {
+            requests.count
+        }
+        
+        func loadPublisher() -> AnyPublisher<[FeedImage], Error> {
+            let publisher = PassthroughSubject<[FeedImage], Error>()
+            requests.append(publisher)
+            return publisher.eraseToAnyPublisher()
+        }
+        
+        func completeFeedLoading(with feed: [FeedImage] = [], at index: Int = 0) {
+            requests[index].send(feed)
+        }
+        
+        func completeFeedLoadingWithError(at index: Int = 0) {
+            let error = NSError(domain: "an error", code: 0)
+            requests[index].send(completion: .failure(error))
+        }
     }
 }
