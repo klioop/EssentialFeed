@@ -196,7 +196,7 @@ class FeedAcceptanceTests: XCTestCase {
         return try! JSONSerialization.data(withJSONObject: ["items": [
             [
                 "id": UUID().uuidString,
-                "messaeg": makeCommentMessage(),
+                "message": makeCommentMessage(),
                 "created_at": "2020-05-20T11:24:59+0000",
                 "author": [
                     "username": "a username"
