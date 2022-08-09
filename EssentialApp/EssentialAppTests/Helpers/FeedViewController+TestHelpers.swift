@@ -48,6 +48,7 @@ extension ListViewController {
     }
 }
 
+
 extension ListViewController {
     func numberOfRenderedComments() -> Int {
         tableView.numberOfSections == 0 ? 0 : tableView.numberOfRows(inSection: commentsSection)
