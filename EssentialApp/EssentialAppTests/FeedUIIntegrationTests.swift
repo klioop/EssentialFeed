@@ -19,7 +19,23 @@ class FeedUIIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
         
         XCTAssertEqual(sut.title, feedTitle)
-    }   
+    }
+    
+    func test_imageSelection_notifiesHandler() {
+        let image0 = makeImage()
+        let image1 = makeImage()
+        var selectedImages = [FeedImage]()
+        let (sut, loader) = makeSUT(selection: { selectedImages.append($0) })
+        
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [image0, image1])
+        
+        sut.simulateTapOnFeedImage(at: 0)
+        XCTAssertEqual(selectedImages, [image0])
+        
+        sut.simulateTapOnFeedImage(at: 1)
+        XCTAssertEqual(selectedImages, [image0, image1])
+    }
     
     func test_loadFeedActions_requestFeedFromLoader() {
         let (sut, loader) = makeSUT()
@@ -28,10 +44,10 @@ class FeedUIIntegrationTests: XCTestCase {
         sut.loadViewIfNeeded()
         XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view is loaded")
         
-        sut.simulateUserInitiatedFeedLoad()
+        sut.simulateUserInitiateReLoad()
         XCTAssertEqual(loader.loadFeedCallCount, 2,  "Expected another loading request once user initiates a load")
         
-        sut.simulateUserInitiatedFeedLoad()
+        sut.simulateUserInitiateReLoad()
         XCTAssertEqual(loader.loadFeedCallCount, 3, "Expected a third loading request once user initiates another load")
     }
     
@@ -44,7 +60,7 @@ class FeedUIIntegrationTests: XCTestCase {
         loader.completeFeedLoading()
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading completes successfully")
                         
-        sut.simulateUserInitiatedFeedLoad()
+        sut.simulateUserInitiateReLoad()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a reload")
         
         loader.completeFeedLoadingWithError(at: 1)
@@ -64,7 +80,7 @@ class FeedUIIntegrationTests: XCTestCase {
         loader.completeFeedLoading(with: [image0], at: 0)
         assertThat(sut, isRendering: [image0])
         
-        sut.simulateUserInitiatedFeedLoad()
+        sut.simulateUserInitiateReLoad()
         let feed = [image0, image1, image2, image3]
         loader.completeFeedLoading(with: feed, at: 1)
         assertThat(sut, isRendering: feed)
@@ -79,7 +95,7 @@ class FeedUIIntegrationTests: XCTestCase {
         loader.completeFeedLoading(with: [image0, image1])
         assertThat(sut, isRendering: [image0, image1])
         
-        sut.simulateUserInitiatedFeedLoad()
+        sut.simulateUserInitiateReLoad()
         loader.completeFeedLoading(with: [], at: 1)
         assertThat(sut, isRendering: [])
     }
@@ -92,7 +108,7 @@ class FeedUIIntegrationTests: XCTestCase {
         loader.completeFeedLoading(with: [image0], at: 0)
         assertThat(sut, isRendering: [image0])
         
-        sut.simulateUserInitiatedFeedLoad()
+        sut.simulateUserInitiateReLoad()
         loader.completeFeedLoadingWithError(at: 0)
         assertThat(sut, isRendering: [image0])
     }
@@ -106,7 +122,7 @@ class FeedUIIntegrationTests: XCTestCase {
         loader.completeFeedLoadingWithError()
         XCTAssertEqual(sut.errorMessage, loadError)
         
-        sut.simulateUserInitiatedFeedLoad()
+        sut.simulateUserInitiateReLoad()
         XCTAssertEqual(sut.errorMessage, nil, "Expected no error message on feed reload")
     }
     
@@ -122,6 +138,8 @@ class FeedUIIntegrationTests: XCTestCase {
         sut.simulateErrorMessageTapped()
         XCTAssertEqual(sut.errorMessage, nil, "Expected no error message when the message is tapped")
     }
+    
+    // MARK: - Image View Tests
     
     func test_feedImageView_loadsImageURLWhenVisible() {
         let image0 = makeImage(url: URL(string: "https://url-0.com")!)
@@ -330,9 +348,17 @@ class FeedUIIntegrationTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: ListViewController, loader: FeedLoaderSpy) {
+    private func makeSUT(
+        selection: @escaping (FeedImage) -> Void = { _ in },
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (sut: ListViewController, loader: FeedLoaderSpy) {
         let loader = FeedLoaderSpy()
-        let sut = FeedUIComposer.feedComposedWith(feedLoader: loader.loadPublisher, imageLoader: loader.loadImageDataPublisher)
+        let sut = FeedUIComposer.feedComposedWith(
+            feedLoader: loader.loadPublisher,
+            imageLoader: loader.loadImageDataPublisher,
+            selection: selection
+        )
         trackMemoryLeak(loader, file: file, line: line)
         trackMemoryLeak(sut, file: file, line: line)
         return (sut, loader)
@@ -344,15 +370,5 @@ class FeedUIIntegrationTests: XCTestCase {
     
     private func anyImageData() -> Data {
         UIImage.make(withColor: .red).pngData()!
-    }
-}
-
-private extension ListViewController {
-    var errorMessage: String? {
-        errorView.message
-    }
-    
-    func simulateErrorMessageTapped() {
-        errorView.button.simulateTap()
     }
 }
