@@ -8,7 +8,7 @@
 import UIKit
 
 extension UITableView {
-    func sizeTableHaderToFit() {
+    func sizeTableHeaderToFit() {
         guard let header = tableHeaderView else { return }
         
         let size = header.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)

@@ -34,7 +34,7 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tableView.sizeTableHaderToFit()
+        tableView.sizeTableHeaderToFit()
     }
     
     public override func traitCollectionDidChange(_ previous: UITraitCollection?) {
@@ -48,7 +48,7 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
         
         errorView.onHide = { [weak self] in
             self?.tableView.beginUpdates()
-            self?.tableView.sizeTableHaderToFit()
+            self?.tableView.sizeTableHeaderToFit()
             self?.tableView.endUpdates()
         }
     }

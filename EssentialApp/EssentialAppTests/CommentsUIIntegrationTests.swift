@@ -82,7 +82,7 @@ class CommentsUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [ImageComment]())
     }
     
-    func test_loadCommentsCompeltion_doesNotAlterCurrentRenderingStateOnError() {
+    func test_loadCommentsCompletion_doesNotAlterCurrentRenderingStateOnError() {
         let comment = makeComment(message: "a message", username: "a username")
         let (sut, loader) = makeSUT()
         
@@ -108,7 +108,7 @@ class CommentsUIIntegrationTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    func test_loadCommentsCompeltion_rendersErrorMessageOnErrorUnitlNextReload() {
+    func test_loadCommentsCompletion_rendersErrorMessageOnErrorUntilNextReload() {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
