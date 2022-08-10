@@ -12,11 +12,7 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     @IBOutlet public var refreshController: FeedRefreshViewController?
     private(set) public var errorView = ErrorView()
     
-    private enum Section: Int {
-        case main
-    }
-    
-    private lazy var dataSource: UITableViewDiffableDataSource<Section, CellController> = {
+    private lazy var dataSource: UITableViewDiffableDataSource<Int, CellController> = {
         .init(tableView: tableView) { tableView, index, controller in
             controller.dataSource.tableView(tableView, cellForRowAt: index)
         }
@@ -53,10 +49,12 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
         }
     }
     
-    public func display(_ controllers: [CellController]) {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, CellController>()
-        snapShot.appendSections([.main])
-        snapShot.appendItems(controllers, toSection: .main)
+    public func display(_ sections: [CellController]...) {
+        var snapShot = NSDiffableDataSourceSnapshot<Int, CellController>()
+        sections.enumerated().forEach { section, cellControllers in
+            snapShot.appendSections([section])
+            snapShot.appendItems(cellControllers, toSection: section)
+        }
         dataSource.apply(snapShot)
     }
     
@@ -82,6 +80,11 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
             let dsp = cellController(at: indexPath)?.dataSourcePrefetching
             dsp?.tableView?(tableView, cancelPrefetchingForRowsAt: [indexPath])
         }
+    }
+    
+    public override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let dl = cellController(at: indexPath)?.delegate
+        dl?.tableView?(tableView, willDisplay: cell, forRowAt: indexPath)
     }
     
     private func cellController(at indexPath: IndexPath) -> CellController? {

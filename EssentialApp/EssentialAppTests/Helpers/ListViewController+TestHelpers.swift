@@ -1,5 +1,5 @@
 //
-//  FeedViewControllerTests+Helpers.swift
+//  ListViewController+TestHelpers.swift
 //  EssentialFeediOSTests
 //
 //  Created by klioop on 2022/03/21.
@@ -30,7 +30,7 @@ extension ListViewController {
     func commentMessage(at row: Int) -> String? {
         commentView(at: row)?.messageLabel.text
     }
-        
+    
     func commentDate(at row: Int) -> String? {
         commentView(at: row)?.dateLabel.text
     }
@@ -96,6 +96,14 @@ extension ListViewController {
         ds?.tableView?(tableView, cancelPrefetchingForRowsAt: [index])
     }
     
+    func simulateLoadMoreFeedAction() {
+        guard let view = cell(row: 0, section: feedLoadMoreSection) else { return }
+        
+        let delegate = tableView.delegate
+        let index = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(tableView, willDisplay: view, forRowAt: index)
+    }
+    
     func renderedFeedImageData(at index: Int) -> Data? {
         simulateFeedImageViewVisible(at: index)?.renderedImage
     }
@@ -109,15 +117,23 @@ extension ListViewController {
         tableView.numberOfRows(inSection: feedImagesSection)
     }
     
-    var feedImagesSection: Int {
-        0
+    func numberOfRenderedView(in section: Int) -> Int {
+        tableView.numberOfSections == 0 ? 0 :
+        tableView.numberOfRows(inSection: section)
     }
     
     func feedImageView(at row: Int) -> UITableViewCell? {
-        guard numberOfRenderedFeedImageViews() > row else { return nil }
+        cell(row: row, section: feedImagesSection)
+    }
+    
+    private func cell(row: Int, section: Int) -> UITableViewCell? {
+        guard numberOfRenderedView(in: section) > row else { return nil }
         
         let ds = tableView.dataSource
-        let indexPath = IndexPath(row: row, section: feedImagesSection)
+        let indexPath = IndexPath(row: row, section: section)
         return ds?.tableView(tableView, cellForRowAt: indexPath)
     }
+    
+    private var feedImagesSection: Int { 0 }
+    private var feedLoadMoreSection: Int { 1 }
 }
