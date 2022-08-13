@@ -117,17 +117,16 @@ extension ListViewController {
         tableView.numberOfRows(inSection: feedImagesSection)
     }
     
-    func numberOfRenderedView(in section: Int) -> Int {
-        tableView.numberOfSections == 0 ? 0 :
-        tableView.numberOfRows(inSection: section)
-    }
-    
     func feedImageView(at row: Int) -> UITableViewCell? {
         cell(row: row, section: feedImagesSection)
     }
     
+    func numberOfRows(in section: Int) -> Int {
+        tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
+    }
+    
     private func cell(row: Int, section: Int) -> UITableViewCell? {
-        guard numberOfRenderedView(in: section) > row else { return nil }
+        guard numberOfRows(in: section) > row else { return nil }
         
         let ds = tableView.dataSource
         let indexPath = IndexPath(row: row, section: section)
