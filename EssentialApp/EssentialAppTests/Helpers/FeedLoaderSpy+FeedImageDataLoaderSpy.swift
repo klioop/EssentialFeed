@@ -30,30 +30,30 @@ class FeedLoaderSpy: FeedImageDataLoader {
     
     func completeFeedLoading(with feed: [FeedImage] = [], at index: Int = 0) {
         feedRequests[index].send(Paginated(items: feed, loadMorePublisher: { [weak self] in
-            let publisher = PassthroughSubject<Paginated<FeedImage>, Error>()
-            self?.loadMoreRequests.append(publisher)
-            return publisher.eraseToAnyPublisher()
+            self?.loadMorePublisher() ?? Empty().eraseToAnyPublisher()
         }))
     }
     
     func completeFeedLoadingWithError(at index: Int = 0) {
-        let error = NSError(domain: "an error", code: 0)
-        feedRequests[index].send(completion: .failure(error))
+        feedRequests[index].send(completion: .failure(anyNSError()))
     }
     
-    func completeLoadMore(with feed: [FeedImage] = [], lastPage: Bool, at index: Int = 0) {
+    private func loadMorePublisher() -> AnyPublisher<Paginated<FeedImage>, Error> {
+        let publisher = PassthroughSubject<Paginated<FeedImage>, Error>()
+        loadMoreRequests.append(publisher)
+        return publisher.eraseToAnyPublisher()
+    }
+    
+    func completeLoadMore(with feed: [FeedImage] = [], lastPage: Bool = false, at index: Int = 0) {
         loadMoreRequests[index].send(Paginated(
             items: feed,
             loadMorePublisher: lastPage ? nil : { [weak self] in
-                let publisher = PassthroughSubject<Paginated<FeedImage>, Error>()
-                self?.loadMoreRequests.append(publisher)
-                return publisher.eraseToAnyPublisher()
+                self?.loadMorePublisher() ?? Empty().eraseToAnyPublisher()
             }))
     }
     
     func completeLoadMoreWithError(at index: Int = 0) {
-        let error = NSError(domain: "an error", code: 0)
-        loadMoreRequests[index].send(completion: .failure(error))
+        loadMoreRequests[index].send(completion: .failure(anyNSError()))
     }
     
     // MARK: - FeedImageDataLoader
@@ -85,7 +85,6 @@ class FeedLoaderSpy: FeedImageDataLoader {
     }
     
     func completeImageLoadingWithError(at index: Int) {
-        let error = NSError(domain: "an error", code: 0)
-        imageRequests[index].completion(.failure(error))
+        imageRequests[index].completion(.failure(anyNSError()))
     }
 }

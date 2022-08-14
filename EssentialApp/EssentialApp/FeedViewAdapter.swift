@@ -53,7 +53,7 @@ final class FeedViewAdapter: ResourceView {
         }
         
         let loadMoreAdapter = LoadMorePresentationAdapter(loader: loadMorePublisher)
-        let loadMore = LoadMoreCellController (callback: loadMoreAdapter.loadResource)
+        let loadMore = LoadMoreCellController(callback: loadMoreAdapter.loadResource)
         
         loadMoreAdapter.presenter = LoadResourcePresenter(
             resourceView: self,
