@@ -55,7 +55,7 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
             snapShot.appendSections([section])
             snapShot.appendItems(cellControllers, toSection: section)
         }
-        dataSource.apply(snapShot)
+        dataSource.apply(snapShot, animatingDifferences: false)
     }
     
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
