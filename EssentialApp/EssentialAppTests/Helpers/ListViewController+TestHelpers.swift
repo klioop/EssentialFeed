@@ -20,7 +20,7 @@ extension ListViewController {
     }
     
     func simulateErrorMessageTapped() {
-        errorView.button.simulateTap()
+        errorView.simulateTap()
     }
     
     func simulateUserInitiateReLoad() {
