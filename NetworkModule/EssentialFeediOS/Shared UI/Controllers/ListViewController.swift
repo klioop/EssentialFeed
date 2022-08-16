@@ -40,7 +40,7 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     }
     
     private func configureErrorView() {
-        tableView.tableHeaderView = errorView
+        tableView.tableHeaderView = errorView.containerView()
         
         errorView.onHide = { [weak self] in
             self?.tableView.beginUpdates()

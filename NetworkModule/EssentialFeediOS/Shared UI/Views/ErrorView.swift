@@ -7,14 +7,9 @@
 
 import UIKit
 
-public final class ErrorView: UIView {
-    public lazy var button: UIButton = {
-        let button = UIButton()
-        return button
-    }()
-    
+public final class ErrorView: UIButton {
     public var message: String? {
-        get { return isVisible ? button.title(for: .normal) : nil }
+        get { return isVisible ? title(for: .normal) : nil }
         set { setMessageAnimated(newValue) }
     }
 
@@ -30,34 +25,20 @@ public final class ErrorView: UIView {
     }
 
     private func configure() {
-        backgroundColor = .clear
+        backgroundColor = .errorBackgroundColor
         
-        configureButton()
-        hideMessage()
-    }
-    
-    private func configureButton() {
-        addSubview(button)
-        button.backgroundColor = .errorBackgroundColor
         configureLabel()
+        hideMessage()
         
-        button.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            button.leadingAnchor.constraint(equalTo: leadingAnchor),
-            trailingAnchor.constraint(equalTo: button.trailingAnchor),
-            button.topAnchor.constraint(equalTo: topAnchor),
-            bottomAnchor.constraint(equalTo: button.bottomAnchor),
-        ])
-        
-        button.addTarget(self, action: #selector(hideMessageAnimated), for: .touchUpInside)
+        addTarget(self, action: #selector(hideMessageAnimated), for: .touchUpInside)
     }
 
     private func configureLabel() {
-        button.titleLabel?.textColor = .white
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.numberOfLines = 0
-        button.titleLabel?.font = .preferredFont(forTextStyle: .body)
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        titleLabel?.textColor = .white
+        titleLabel?.textAlignment = .center
+        titleLabel?.numberOfLines = 0
+        titleLabel?.font = .preferredFont(forTextStyle: .body)
+        titleLabel?.adjustsFontForContentSizeCategory = true
     }
 
     private var isVisible: Bool {
@@ -73,9 +54,9 @@ public final class ErrorView: UIView {
     }
 
     private func showAnimated(_ message: String) {
-        button.setTitle(message, for: .normal)
+        setTitle(message, for: .normal)
 
-        button.contentEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
+        contentEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         
         UIView.animate(withDuration: 0.25) {
             self.alpha = 1
@@ -92,10 +73,10 @@ public final class ErrorView: UIView {
     }
 
     private func hideMessage() {
-        button.setTitle(nil, for: .normal)
+        setTitle(nil, for: .normal)
         alpha = 0
         
-        button.contentEdgeInsets = .init(top: -10.5, left: 0, bottom: -10.5, right: 0)
+        contentEdgeInsets = .init(top: -10.5, left: 0, bottom: -10.5, right: 0)
         onHide?()
     }
 }
