@@ -110,6 +110,10 @@ extension ListViewController {
         delegate?.tableView?(tableView, didSelectRowAt: index)
     }
     
+    var canLoadMoreFeed: Bool {
+        loadMoreCell() != nil
+    }
+    
     var isShowingLoadMoreFeedIndicator: Bool {
         loadMoreCell()?.isLoading == true
     }
