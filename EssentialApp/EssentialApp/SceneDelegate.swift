@@ -92,7 +92,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         last.map { item in
             let url = FeedEndPoint.get(after: item).url(with: baseURL)
             
-            return { [httpClient] in
+            return { [httpClient, localFeedLoader] in
                 httpClient
                     .getPublisher(from: url)
                     .tryMap(FeedItemMapper.map)
@@ -100,7 +100,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         let allItems = items + newItems
                         return Paginated(items: allItems, loadMorePublisher: self.makeRemoteLoadMoreLoader(items: allItems, last: newItems.last))
                     }
-                    .eraseToAnyPublisher()
+                    .cache(to: localFeedLoader)
             }
         }
     }
