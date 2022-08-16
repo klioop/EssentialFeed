@@ -80,7 +80,7 @@ class LocalFeedLoaderTest: XCTestCase {
         var sut: LocalFeedLoader? = .init(store: store, currentDate: Date.init)
         
         var receivedResult = [LocalFeedLoader.SaveResult]()
-        sut?.save([uniuqeImage()], completion: { receivedResult.append($0) })
+        sut?.save([uniqueImage()], completion: { receivedResult.append($0) })
         
         sut = nil
         store.completeDeletion(with: anyNSError())
@@ -93,7 +93,7 @@ class LocalFeedLoaderTest: XCTestCase {
         var sut: LocalFeedLoader? = .init(store: store, currentDate: Date.init)
         
         var receivedResult = [LocalFeedLoader.SaveResult]()
-        sut?.save([uniuqeImage()], completion: { receivedResult.append($0) })
+        sut?.save([uniqueImage()], completion: { receivedResult.append($0) })
         
         store.completeDeletionSuccessfully()
         sut = nil

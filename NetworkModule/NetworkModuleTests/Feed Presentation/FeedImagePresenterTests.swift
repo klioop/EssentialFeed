@@ -11,7 +11,7 @@ import NetworkModule
 class FeedImagePresenterTests: XCTestCase {
     
     func test_map_createsViewModel() {
-        let image = uniuqeImage()
+        let image = uniqueImage()
         
         let viewModel = FeedImagePresenter.map(image)
         
