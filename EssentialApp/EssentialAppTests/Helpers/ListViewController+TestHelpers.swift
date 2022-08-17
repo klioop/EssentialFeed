@@ -1,5 +1,5 @@
 //
-//  FeedViewControllerTests+Helpers.swift
+//  ListViewController+TestHelpers.swift
 //  EssentialFeediOSTests
 //
 //  Created by klioop on 2022/03/21.
@@ -20,7 +20,7 @@ extension ListViewController {
     }
     
     func simulateErrorMessageTapped() {
-        errorView.button.simulateTap()
+        errorView.simulateTap()
     }
     
     func simulateUserInitiateReLoad() {
@@ -30,7 +30,7 @@ extension ListViewController {
     func commentMessage(at row: Int) -> String? {
         commentView(at: row)?.messageLabel.text
     }
-        
+    
     func commentDate(at row: Int) -> String? {
         commentView(at: row)?.dateLabel.text
     }
@@ -96,6 +96,36 @@ extension ListViewController {
         ds?.tableView?(tableView, cancelPrefetchingForRowsAt: [index])
     }
     
+    func simulateLoadMoreFeedAction() {
+        guard let view = loadMoreCell() else { return }
+        
+        let delegate = tableView.delegate
+        let index = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(tableView, willDisplay: view, forRowAt: index)
+    }
+    
+    func simulateTapOnLoadMoreError() {
+        let delegate = tableView.delegate
+        let index = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(tableView, didSelectRowAt: index)
+    }
+    
+    var canLoadMoreFeed: Bool {
+        loadMoreCell() != nil
+    }
+    
+    var isShowingLoadMoreFeedIndicator: Bool {
+        loadMoreCell()?.isLoading == true
+    }
+    
+    var loadMoreFeedErrorMessage: String? {
+        loadMoreCell()?.message
+    }
+    
+    private func loadMoreCell() -> LoadMoreCell? {
+        cell(row: 0, section: feedLoadMoreSection) as? LoadMoreCell
+    }
+    
     func renderedFeedImageData(at index: Int) -> Data? {
         simulateFeedImageViewVisible(at: index)?.renderedImage
     }
@@ -109,15 +139,22 @@ extension ListViewController {
         tableView.numberOfRows(inSection: feedImagesSection)
     }
     
-    var feedImagesSection: Int {
-        0
+    func feedImageView(at row: Int) -> UITableViewCell? {
+        cell(row: row, section: feedImagesSection)
     }
     
-    func feedImageView(at row: Int) -> UITableViewCell? {
-        guard numberOfRenderedFeedImageViews() > row else { return nil }
+    func numberOfRows(in section: Int) -> Int {
+        tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
+    }
+    
+    private func cell(row: Int, section: Int) -> UITableViewCell? {
+        guard numberOfRows(in: section) > row else { return nil }
         
         let ds = tableView.dataSource
-        let indexPath = IndexPath(row: row, section: feedImagesSection)
+        let indexPath = IndexPath(row: row, section: section)
         return ds?.tableView(tableView, cellForRowAt: indexPath)
     }
+    
+    private var feedImagesSection: Int { 0 }
+    private var feedLoadMoreSection: Int { 1 }
 }
