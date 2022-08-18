@@ -5,7 +5,8 @@
 //  Created by klioop on 2022/07/11.
 //
 
-import Foundation
+import os
+import UIKit
 import Combine
 import NetworkModule
 
@@ -173,5 +174,30 @@ extension DispatchQueue {
         func schedule(after date: DispatchQueue.SchedulerTimeType, interval: DispatchQueue.SchedulerTimeType.Stride, tolerance: DispatchQueue.SchedulerTimeType.Stride, options: DispatchQueue.SchedulerOptions?, _ action: @escaping () -> Void) -> Cancellable {
             DispatchQueue.main.schedule(after: date, interval: interval, tolerance: tolerance, options: options, action)
         }
+    }
+}
+
+extension Publisher {
+    func logErrors(url: URL, logger: Logger) -> AnyPublisher<Output, Failure> {
+        handleEvents(receiveCompletion: { result in
+            if case let .failure(error) = result {
+                logger.trace("Failed to load url: \(url) with error: \(error.localizedDescription)")
+            }
+        })
+        .eraseToAnyPublisher()
+    }
+    
+    func logElapsed(url: URL, logger: Logger) -> AnyPublisher<Output, Failure> {
+        var startTime = CACurrentMediaTime()
+        
+        return handleEvents(receiveSubscription: { _ in
+            startTime = CACurrentMediaTime()
+            logger.trace("Started loading url: \(url)")
+        },
+                            receiveCompletion: { _ in
+            let elapsed = CACurrentMediaTime() - startTime
+            logger.trace("Finished loading url: \(url), in \(elapsed)")
+        })
+        .eraseToAnyPublisher()
     }
 }
