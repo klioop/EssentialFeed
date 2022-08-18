@@ -96,14 +96,14 @@ class CoreDataFeedImageDataStore: XCTestCase {
         sut.insert([image], timestamp: Date()) { result in
             switch result {
             case let .failure(error):
-                XCTFail("Faild to save \(image) with error \(error)", file: file, line: line)
+                XCTFail("Failed to save \(image) with error \(error)", file: file, line: line)
                 
                 exp.fulfill()
                 
             case .success:
                 sut.insert(data: data, for: url) { result in
                     if case let Result.failure(error) = result {
-                        XCTFail("Faild to insert \(data) with error \(error)", file: file, line: line)
+                        XCTFail("Failed to insert \(data) with error \(error)", file: file, line: line)
                     }
                     exp.fulfill()
                 }

@@ -46,5 +46,3 @@ public final class CoreDataFeedStore {
         cleanUPReferencesToPersistentStore()
     }
 }
-
-
