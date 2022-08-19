@@ -9,7 +9,7 @@ import Foundation
 import NetworkModule
 
 class FeedImageDataStoreSpy: FeedImageDataStore {
-    private var retrievalCompletions = [(FeedImageDataStore.RetrievalResult) -> Void]()
+    private var retrievalCompletion: Result<Data?, Error>?
     private var insertionCompletion: Result<Void, Error>?
     
     private(set) var receivedMessages = [Message]()
@@ -19,17 +19,17 @@ class FeedImageDataStoreSpy: FeedImageDataStore {
         case insert(data: Data, for: URL)
     }
     
-    func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.RetrievalResult) -> Void) {
-        retrievalCompletions.append(completion)
+    func retrieve(dataForURL url: URL) throws -> Data? {
         receivedMessages.append(.retrieve(dataFor: url))
+        return try retrievalCompletion?.get()
     }
     
-    func completeRetrieval(with error: Error, at index: Int = 0) {
-        retrievalCompletions[index](.failure(error))
+    func completeRetrieval(with error: Error) {
+        retrievalCompletion = .failure(error)
     }
     
-    func completeRetrieval(with data: Data?, at index: Int = 0) {
-        retrievalCompletions[index](.success(data))
+    func completeRetrieval(with data: Data?) {
+        retrievalCompletion = .success(data)
     }
     
     func insert(data: Data, for url: URL) throws {
