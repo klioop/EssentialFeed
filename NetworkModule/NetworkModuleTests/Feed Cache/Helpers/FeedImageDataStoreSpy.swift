@@ -10,7 +10,7 @@ import NetworkModule
 
 class FeedImageDataStoreSpy: FeedImageDataStore {
     private var retrievalCompletions = [(FeedImageDataStore.RetrievalResult) -> Void]()
-    private var insertionCompletions = [(FeedImageDataStore.InsertionResult) -> Void]()
+    private var insertionCompletion: Result<Void, Error>?
     
     private(set) var receivedMessages = [Message]()
     
@@ -32,16 +32,16 @@ class FeedImageDataStoreSpy: FeedImageDataStore {
         retrievalCompletions[index](.success(data))
     }
     
-    func insert(data: Data, for url: URL, completion: @escaping (InsertionResult) -> Void) {
-        insertionCompletions.append(completion)
+    func insert(data: Data, for url: URL) throws {
         receivedMessages.append(.insert(data: data, for: url))
+        try insertionCompletion?.get()
     }
     
-    func completeInsertion(with error: Error, at index: Int = 0) {
-        insertionCompletions[index](.failure(error))
+    func completeInsertion(with error: Error) {
+        insertionCompletion = .failure(error)
     }
     
-    func completeInsertionSuccessfully(at index: Int = 0) {
-        insertionCompletions[index](.success(()))
+    func completeInsertionSuccessfully() {
+        insertionCompletion = .success(())
     }
 }
