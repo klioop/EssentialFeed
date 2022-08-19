@@ -28,10 +28,10 @@ public final class LoadMoreCellController: NSObject, UITableViewDataSource, UITa
     public func tableView(_ tableView: UITableView, willDisplay: UITableViewCell, forRowAt indexPath: IndexPath) {
         reloadIfNeeded()
         
-        offsetObserver = tableView.observe(\.contentOffset, options: .new) { [reloadIfNeeded] tableView, _ in
+        offsetObserver = tableView.observe(\.contentOffset, options: .new) { [weak self] tableView, _ in
             guard tableView.isDragging else { return }
             
-            reloadIfNeeded()
+            self?.reloadIfNeeded()
         }
     }
     

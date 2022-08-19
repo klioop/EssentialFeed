@@ -5,6 +5,7 @@
 //  Created by klioop on 2022/04/19.
 //
 
+import os
 import UIKit
 import Combine
 import CoreData
@@ -19,11 +20,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         URLSessionHTTPClient(session: .init(configuration: .ephemeral))
     }()
     
+    private lazy var logger = Logger(subsystem: "com.klioop.essentialAppCaseStudy", category: "main")
+    
     private lazy var store: FeedStore & FeedImageDataStore = {
-        try! CoreDataFeedStore(
-            storeURL: NSPersistentContainer
-                .defaultDirectoryURL()
-                .appendingPathComponent("feed-store.sqlite"))
+        do {
+            return try CoreDataFeedStore(
+                storeURL: NSPersistentContainer
+                    .defaultDirectoryURL()
+                    .appendingPathComponent("feed-store.sqlite"))
+        } catch {
+            assertionFailure("Failed to instantiate CoreData store with error: \(error.localizedDescription)")
+            logger.fault("Failed to instantiate CoreData store with error: \(error.localizedDescription)")
+            return NullFeedStore()
+        }
     }()
     
     private lazy var localFeedLoader = {
@@ -117,9 +126,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         return localImageLoader
             .loadImageDataPublisher(from: url)
-            .fallback (to: {
+            .logCacheMiss(url: url, logger: logger)
+            .fallback (to: { [logger] in
                 remoteImageLoader
                     .loadImageDataPublisher(from: url)
+                    .logErrors(url: url, logger: logger)
+                    .logElapsed(url: url, logger: logger)
                     .caching(to: localImageLoader, using: url)
             })
     }
