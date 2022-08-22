@@ -16,6 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     
+    private lazy var scheduler: AnyDispatchQueueScheduler = DispatchQueue(
+        label: "com.klioop.infra.queue",
+        qos: .userInitiated,
+        attributes: .concurrent
+    ).eraseToScheduler()
+    
     private lazy var httpClient: HTTPClient = {
         URLSessionHTTPClient(session: .init(configuration: .ephemeral))
     }()
@@ -47,10 +53,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private lazy var baseURL = URL(string: "https://ile-api.essentialdeveloper.com/essential-feed")!
     
-    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore) {
+    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore, scheduler: AnyDispatchQueueScheduler) {
         self.init()
         self.httpClient = httpClient
         self.store = store
+        self.scheduler = scheduler
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -126,13 +133,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return localImageLoader
             .loadImageDataPublisher(from: url)
             .logCacheMiss(url: url, logger: logger)
-            .fallback (to: { [httpClient, logger] in
+            .fallback(to: { [httpClient, scheduler] in
                 httpClient
                     .getPublisher(from: url)
                     .tryMap(ImageDataMapper.map)
-                    .logErrors(url: url, logger: logger)
-                    .logElapsed(url: url, logger: logger)
                     .caching(to: localImageLoader, using: url)
+                    .subscribe(on: scheduler)
+                    .eraseToAnyPublisher()
             })
+            .subscribe(on: scheduler)
+            .eraseToAnyPublisher()
     }
 }
