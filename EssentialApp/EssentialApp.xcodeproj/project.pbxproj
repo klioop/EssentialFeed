@@ -15,6 +15,7 @@
 		3155DCFF281584BE00C286D5 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3155DCFE281584BE00C286D5 /* SharedTestHelpers.swift */; };
 		31AE8DE328B4CE7C00DA6583 /* AnyScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AE8DE228B4CE7C00DA6583 /* AnyScheduler.swift */; };
 		31AE8DE528B4CEF000DA6583 /* Combine+Paginated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AE8DE428B4CEF000DA6583 /* Combine+Paginated.swift */; };
+		31AE8DE728B4CF4900DA6583 /* Combine+HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AE8DE628B4CF4900DA6583 /* Combine+HTTPClient.swift */; };
 		31C4AF43289F8E8E002F4141 /* CommentsUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C4AF42289F8E8E002F4141 /* CommentsUIIntegrationTests.swift */; };
 		31C4AF45289F907D002F4141 /* CommentsUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C4AF44289F907D002F4141 /* CommentsUIComposer.swift */; };
 		31C4AF6328ACFC4A002F4141 /* NullStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C4AF6228ACFC4A002F4141 /* NullStore.swift */; };
@@ -74,6 +75,7 @@
 		3155DCFE281584BE00C286D5 /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
 		31AE8DE228B4CE7C00DA6583 /* AnyScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyScheduler.swift; sourceTree = "<group>"; };
 		31AE8DE428B4CEF000DA6583 /* Combine+Paginated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+Paginated.swift"; sourceTree = "<group>"; };
+		31AE8DE628B4CF4900DA6583 /* Combine+HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Combine+HTTPClient.swift"; sourceTree = "<group>"; };
 		31C4AF42289F8E8E002F4141 /* CommentsUIIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsUIIntegrationTests.swift; sourceTree = "<group>"; };
 		31C4AF44289F907D002F4141 /* CommentsUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsUIComposer.swift; sourceTree = "<group>"; };
 		31C4AF6228ACFC4A002F4141 /* NullStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NullStore.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			children = (
 				31AE8DE228B4CE7C00DA6583 /* AnyScheduler.swift */,
 				31AE8DE428B4CEF000DA6583 /* Combine+Paginated.swift */,
+				31AE8DE628B4CF4900DA6583 /* Combine+HTTPClient.swift */,
 			);
 			path = "Combine Helpers";
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31AE8DE728B4CF4900DA6583 /* Combine+HTTPClient.swift in Sources */,
 				31AE8DE328B4CE7C00DA6583 /* AnyScheduler.swift in Sources */,
 				31F0DFE0280EF266007F0A5D /* ViewController.swift in Sources */,
 				31DC2AD7287C497600FBEE20 /* CombineHelpers.swift in Sources */,
