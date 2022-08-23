@@ -10,17 +10,6 @@ import UIKit
 import Combine
 import NetworkModule
 
-public extension LocalFeedLoader {
-    typealias Publisher = AnyPublisher<[FeedImage], Error>
-    
-    func loadPublisher() -> AnyPublisher<[FeedImage], Error> {
-        Deferred {
-            Future(self.load)
-        }
-        .eraseToAnyPublisher()
-    }
-}
-
 extension Publisher {
     func fallback(to fallbackPublisher: @escaping () -> AnyPublisher<Output, Failure>) -> AnyPublisher<Output, Failure> {
         // catch operator is equivalent to the `FeedLoaderWithFallbackComposite`
