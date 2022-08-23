@@ -1,5 +1,5 @@
 //
-//  CombineHelpers.swift
+//  Combine+logger.swift
 //  EssentialApp
 //
 //  Created by klioop on 2022/07/11.
@@ -9,14 +9,6 @@ import os
 import UIKit
 import Combine
 import NetworkModule
-
-extension Publisher {
-    func fallback(to fallbackPublisher: @escaping () -> AnyPublisher<Output, Failure>) -> AnyPublisher<Output, Failure> {
-        // catch operator is equivalent to the `FeedLoaderWithFallbackComposite`
-        // self is a primary loader
-        self.catch { _ in fallbackPublisher() }.eraseToAnyPublisher()
-    }
-}
 
 extension Publisher {
     func logCacheMiss(url: URL, logger: Logger) -> AnyPublisher<Output, Failure> {
