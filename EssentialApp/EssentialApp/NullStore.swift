@@ -8,7 +8,7 @@
 import Foundation
 import NetworkModule
 
-final class NullFeedStore: FeedStore & FeedImageDataStore {
+final class NullStore: FeedStore {
     func deletedCacheFeed(completion: @escaping DeletionCompletion) {
         completion(.success(()))
     }
@@ -20,12 +20,10 @@ final class NullFeedStore: FeedStore & FeedImageDataStore {
     func retrieve(completion: @escaping RetrievalCompletion) {
         completion(.success(.none))
     }
+}
+
+extension NullStore: FeedImageDataStore {
+    func insert(data: Data, for url: URL) throws {}
     
-    func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.RetrievalResult) -> Void) {
-        completion(.success(.none))
-    }
-    
-    func insert(data: Data, for url: URL, completion: @escaping (InsertionResult) -> Void) {
-        completion(.success(()))
-    }
+    func retrieve(dataForURL url: URL) throws -> Data? { .none }
 }

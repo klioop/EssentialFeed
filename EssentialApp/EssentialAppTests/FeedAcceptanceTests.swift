@@ -86,7 +86,7 @@ class FeedAcceptanceTests: XCTestCase {
         httpClient: HTTPClientStub = .offline,
         store: InMemoryFeedStore = .empty
     ) -> ListViewController {
-        let sut = SceneDelegate(httpClient: httpClient, store: store)
+        let sut = SceneDelegate(httpClient: httpClient, store: store, scheduler: .immediateMainQueue)
         sut.window = UIWindow()
         sut.configureWindow()
         
@@ -95,7 +95,7 @@ class FeedAcceptanceTests: XCTestCase {
     }
     
     private func enterBackground(with store: InMemoryFeedStore) {
-        let sut = SceneDelegate(httpClient: HTTPClientStub.offline, store: store)
+        let sut = SceneDelegate(httpClient: HTTPClientStub.offline, store: store, scheduler: .immediateMainQueue)
         sut.sceneWillResignActive(UIApplication.shared.connectedScenes.first!)
     }
     
@@ -156,13 +156,12 @@ class FeedAcceptanceTests: XCTestCase {
             completion(.success(feedCache))
         }
         
-        func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.RetrievalResult) -> Void) {
-            completion(.success(feedImageDataCache[url]))
+        func insert(data: Data, for url: URL) throws {
+            feedImageDataCache[url] = data
         }
         
-        func insert(data: Data, for url: URL, completion: @escaping (InsertionResult) -> Void) {
-            feedImageDataCache[url] = data
-            completion(.success(()))
+        func retrieve(dataForURL url: URL) throws -> Data? {
+            feedImageDataCache[url]
         }
         
         static var empty: InMemoryFeedStore {
