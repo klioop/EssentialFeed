@@ -59,7 +59,7 @@ class NetworkModuleCacheIntegrationTests: XCTestCase {
         let imageLoaderToPerformSave = makeImageLoader()
         let imageLoaderToPerformLoad = makeImageLoader()
         let feedLoader = makeFeedLoader()
-        let image = uniuqeImage()
+        let image = uniqueFeed()
         let dataToSave = anyData()
         
         save([image], with: feedLoader)
@@ -73,15 +73,15 @@ class NetworkModuleCacheIntegrationTests: XCTestCase {
         let imageLoaderToPerformLastSave = makeImageLoader()
         let imageLoaderToPerformLoad = makeImageLoader()
         let feedLoader = makeFeedLoader()
-        let image = uniuqeImage()
+        let image = uniqueFeed()
         let firstImageData = anyData()
         let lastImageData = anyData()
-        
+
         save([image], with: feedLoader)
-        
+
         save(firstImageData, for: image.url, with: imageLoaderToPerformFirstSave)
         save(lastImageData, for: image.url, with: imageLoaderToPerformLastSave)
-        
+
         expect(imageLoaderToPerformLoad, toLoad: lastImageData, for: image.url)
     }
     
@@ -128,20 +128,16 @@ class NetworkModuleCacheIntegrationTests: XCTestCase {
     }
     
     private func expect(_ sut: LocalFeedImageDataLoader, toLoad expectedData: Data, for url: URL, file: StaticString = #file, line: UInt = #line) {
-            let exp = expectation(description: "Wait for load completion")
-            _ = sut.loadImageData(from: url) { result in
-                switch result {
-                case let .success(loadedData):
-                    XCTAssertEqual(loadedData, expectedData, file: file, line: line)
-
-                case let .failure(error):
-                    XCTFail("Expected successful image data result, got \(error) instead", file: file, line: line)
-                }
-
-                exp.fulfill()
-            }
-            wait(for: [exp], timeout: 1.0)
+        let receivedResult = Result { try sut.loadImageData(from: url) }
+        
+        switch receivedResult {
+        case let .success(loadedData):
+            XCTAssertEqual(loadedData, expectedData, file: file, line: line)
+            
+        case let .failure(error):
+            XCTFail("Expected successful image data result, got \(error) instead", file: file, line: line)
         }
+    }
     
     private func expect(_ sut: LocalFeedLoader, toLoad expectedFeed: [FeedImage], file: StaticString = #filePath, line: UInt = #line) {
         let loadExp = expectation(description: "Wait for load completion")
@@ -170,14 +166,7 @@ class NetworkModuleCacheIntegrationTests: XCTestCase {
     }
     
     private func save(_ data: Data, for url: URL, with loader: LocalFeedImageDataLoader, file: StaticString = #filePath, line: UInt = #line) {
-        let saveExp = expectation(description: "Wait for save completion")
-        loader.save(data, for: url) { result in
-            if case let Result.failure(error) = result {
-                XCTFail("Expected to save image data successfully, got error: \(error)", file: file, line: line)
-            }
-            saveExp.fulfill()
-        }
-        wait(for: [saveExp], timeout: 1.0)
+        XCTAssertNoThrow(try loader.save(data, for: url), "Expected to save image data successfully")
     }
     
     private func validateCache(with loader: LocalFeedLoader, file: StaticString = #filePath, line: UInt = #line) {
@@ -210,5 +199,4 @@ class NetworkModuleCacheIntegrationTests: XCTestCase {
     private func deleteArtifacts() {
         try? FileManager.default.removeItem(at: testSpecificStoreURL())
     }
-    
 }

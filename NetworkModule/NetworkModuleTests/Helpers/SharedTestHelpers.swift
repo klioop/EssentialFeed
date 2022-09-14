@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import NetworkModule
 
 func anyNSError() -> NSError {
     return NSError(domain: "any error", code: 0)
@@ -24,6 +25,10 @@ func makeItemJSON(_ items: [[String: Any]]) -> Data {
         "items": items
     ]
     return try! JSONSerialization.data(withJSONObject: json)
+}
+
+func uniqueFeed() -> FeedImage {
+    FeedImage(id: .init(), description: "any", location: "any", url: anyURL())
 }
 
 extension HTTPURLResponse {
