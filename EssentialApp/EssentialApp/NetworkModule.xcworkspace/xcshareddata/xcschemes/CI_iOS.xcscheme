@@ -40,13 +40,6 @@
          </BuildableReference>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "31CB19BD27D8DE3200EB1FD0"
-            BuildableName = "EssentialFeediOS.framework"
-            BlueprintName = "EssentialFeediOS"
-            ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
             BlueprintIdentifier = "31F0DFD7280EF266007F0A5D"
             BuildableName = "EssentialApp.app"
             BlueprintName = "EssentialApp"
@@ -84,17 +77,6 @@
                BlueprintIdentifier = "31CB194727D4B01100EB1FD0"
                BuildableName = "NetworkModuleCacheIntegrationTests.xctest"
                BlueprintName = "NetworkModuleCacheIntegrationTests"
-               ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "31CB19C427D8DE3200EB1FD0"
-               BuildableName = "EssentialFeediOSTests.xctest"
-               BlueprintName = "EssentialFeediOSTests"
                ReferencedContainer = "container:../../NetworkModule/NetworkModule.xcodeproj">
             </BuildableReference>
          </TestableReference>
